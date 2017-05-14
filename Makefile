@@ -11,7 +11,8 @@ LD=ld
 LDFLAGS=-T link.ld -melf_i386
 
 # Dependencias
-DEPENDENCIAS=loader.o
+DEPENDENCIAS=loader.o kmain.o \
+	     lib/kernel/framebuffer.o
 
 
 # Regla: all
