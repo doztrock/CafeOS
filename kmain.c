@@ -1,18 +1,12 @@
-void cls() {
+#include "lib/kernel/kernel.h"
+#include "lib/libreria.h"
 
-    char *text_video = (char*) 0x000B8000;
-    int i;
-
-    for (i = 0; i < 4000; i++) {
-        *text_video++ = 0x00;
-    }
-
-    return;
-}
+#include "lib/libc/stdlib.h"
 
 int kmain(void) {
 
-    cls();
+    /* Limpiamos la pantalla */
+    limpiarPantalla();
 
     char *fb = (char *) 0x000B8000;
 
@@ -34,5 +28,5 @@ int kmain(void) {
     *fb++ = 'S';
     *fb++ = 0x07;
 
-    return 0;
+    return EXIT_SUCCESS;
 }

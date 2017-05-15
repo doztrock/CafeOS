@@ -11,16 +11,19 @@ LD=ld
 LDFLAGS=-T link.ld -melf_i386
 
 # Dependencias
-DEPENDENCIAS=loader.o kmain.o \
+DEPENDENCIAS=loader.o kmain.o		\
+	     lib/libreria.o		\
 	     lib/kernel/framebuffer.o
 
+# Dependencias: libc
+LIBC: lib/libc/stdio.o lib/libc/stdlib.o
 
 # Regla: all
 all: kernel.elf
 
 # Regla: kernel.elf
-kernel.elf: $(DEPENDENCIAS)
-	$(LD) $(LDFLAGS) $(DEPENDENCIAS) -o kernel.elf
+kernel.elf: $(DEPENDENCIAS) $(LIBC)
+	$(LD) $(LDFLAGS) $(DEPENDENCIAS) $(LIBC) -o kernel.elf
 
 # Regla: iso
 iso: kernel.elf
