@@ -12,17 +12,19 @@ LDFLAGS=-T link.ld -melf_i386
 
 # Dependencias
 DEPENDENCIAS=loader.o kmain.o		\
-	     lib/libreria.o				\
-	     lib/libc/libc.a 			\
+	     lib/libreria.o		\
 	     lib/kernel/framebuffer.o
+
+# Inclusiones
+INCLUSIONES=lib/libc/libc.a 
 
 
 # Regla: all
-all: kernel.elf libc
+all: kernel.elf
 
 # Regla: kernel.elf
-kernel.elf: $(DEPENDENCIAS)
-	$(LD) $(LDFLAGS) $(DEPENDENCIAS) -o kernel.elf
+kernel.elf: $(DEPENDENCIAS) libc
+	$(LD) $(LDFLAGS) $(DEPENDENCIAS) $(INCLUSIONES) -o kernel.elf
 
 # Regla: libc
 libc:
@@ -54,3 +56,5 @@ iso: kernel.elf
 clean:
 	rm -f kernel.elf cafeOS.iso
 	find . -type f -name "*.o" -exec rm {} +
+	find . -type f -name "*.a" -exec rm {} +
+	find . -type f -name "*.elf" -exec rm {} +
