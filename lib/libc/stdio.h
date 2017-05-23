@@ -11,4 +11,11 @@
 #ifndef STDIO_H
 #define STDIO_H
 
+int printf(const char *formato, ...);
+int sprintf(char *str, const char *format, ...);
+
+int scanf(const char *format, ...);
+
+int putchar(int char);
+
 #endif /* STDIO_H */
