@@ -16,4 +16,6 @@
 char *strcat(char *destino, char *origen);
 
 
+size_t strlen(const char *cadena);
+
 #endif /* STRING_H */

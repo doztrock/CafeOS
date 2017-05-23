@@ -12,12 +12,19 @@
 #define STDDEF_H
 
 /**
- * Definicion de NULL
+ * Definiciones
  */
 
-/* NULL */
+/* Definicion: NULL */
 #ifndef NULL
 #define NULL    0
+#endif
+
+
+/* Definicion: size_t */
+#ifndef __SIZE_TYPE_
+#define __SIZE_TYPE_ long unsigned int
+typedef __SIZE_TYPE_ size_t;
 #endif
 
 #endif /* STDDEF_H */

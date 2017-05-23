@@ -10,11 +10,10 @@ ARFLAGS=cr
 OBJETO=libc.a
 
 # Librerias LIBC
-LIBC=stdbool.o 	\
-	 stdio.o 	\
-	 stdlib.o 	\
-	 string.o 	\
-	 unistd.o
+LIBC=stdio.o 	\
+     stdlib.o 	\
+     string.o 	\
+     unistd.o
 
 
 # Regla: all

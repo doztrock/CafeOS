@@ -21,3 +21,23 @@ char *strcat(char *destino, char *origen) {
 
     return destino;
 }
+
+/**
+ * Funcion:  strlen
+ * 
+ * Objetivo: Determinar longitud de una cadena.
+ * 
+ * @param cadena Cadena a la que se le determinara la longitud.
+ * @return Longitud de la cadena indicada.
+ */
+size_t strlen(const char *cadena) {
+
+    size_t longitud = 0;
+    register const char *copia;
+
+    for (copia = cadena; *copia; ++copia);
+
+    longitud = (copia - cadena);
+    
+    return longitud;
+}
