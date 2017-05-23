@@ -3,3 +3,12 @@ nbproject/
 
 # Objetos
 *.o
+
+# Librerias
+*.a
+
+# Compilacion de Kernel
+*.elf
+
+# Imagen ISO
+*.iso

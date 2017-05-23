@@ -12,32 +12,35 @@ LDFLAGS=-T link.ld -melf_i386
 
 # Dependencias
 DEPENDENCIAS=loader.o kmain.o		\
-	     lib/libreria.o		\
+	     lib/libreria.o				\
+	     lib/libc/libc.a 			\
 	     lib/kernel/framebuffer.o
 
-# Dependencias: libc
-LIBC: lib/libc/stdio.o lib/libc/stdlib.o
 
 # Regla: all
-all: kernel.elf
+all: kernel.elf libc
 
 # Regla: kernel.elf
-kernel.elf: $(DEPENDENCIAS) $(LIBC)
-	$(LD) $(LDFLAGS) $(DEPENDENCIAS) $(LIBC) -o kernel.elf
+kernel.elf: $(DEPENDENCIAS)
+	$(LD) $(LDFLAGS) $(DEPENDENCIAS) -o kernel.elf
+
+# Regla: libc
+libc:
+	$(MAKE) --directory=lib/libc/
 
 # Regla: iso
 iso: kernel.elf
 	cp kernel.elf iso/boot/kernel.elf
 	genisoimage -R                              \
-                    -b boot/grub/stage		    \
-                    -no-emul-boot                   \
-                    -boot-load-size 4               \
-                    -A os                           \
-                    -input-charset utf8             \
-                    -quiet                          \
-                    -boot-info-table                \
-                    -o cafeOS.iso		    \
-                    iso
+                -b boot/grub/stage		    	\
+                -no-emul-boot                   \
+                -boot-load-size 4               \
+                -A os                           \
+                -input-charset utf8             \
+                -quiet                          \
+                -boot-info-table                \
+                -o cafeOS.iso		    		\
+                iso
 
 # Regla: Archivos .c
 %.o: %.c
