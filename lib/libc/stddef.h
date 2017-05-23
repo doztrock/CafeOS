@@ -1,19 +1,23 @@
 /**
- * STRING.H
+ * STDDEF.H
  * 
  * Este archivo contiene las declaraciones de algunas de las funciones
  * que corresponden al estandar de C y que por lo tanto se encuentran
- * en <string.h>, por que al ser un sistema operativo distinto, se tienen
+ * en <stddef.h>, por que al ser un sistema operativo distinto, se tienen
  * que hacer todas y cada una de las funciones para que sirvan sin la libreria.
  * 
  */
 
-#ifndef STRING_H
-#define STRING_H
+#ifndef STDDEF_H
+#define STDDEF_H
 
-#include "stddef.h"
+/**
+ * Definicion de NULL
+ */
 
-char *strcat(char *destino, char *origen);
+/* NULL */
+#ifndef NULL
+#define NULL    0
+#endif
 
-
-#endif /* STRING_H */
+#endif /* STDDEF_H */
