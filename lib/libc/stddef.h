@@ -20,7 +20,6 @@
 #define NULL    0
 #endif
 
-
 /* Definicion: size_t */
 #ifndef __SIZE_TYPE_
 #define __SIZE_TYPE_ long unsigned int

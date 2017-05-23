@@ -16,4 +16,3 @@
 #define PUNTERO_VIDEO   0x000B8000
 
 #endif /* KERNEL_H */
-
