@@ -16,18 +16,23 @@ DEPENDENCIAS=loader.o kmain.o		\
 	     lib/libreria.o		\
 
 # Inclusiones
-INCLUSIONES=lib/libc/libc.a 
+INCLUSIONES=lib/libc/libc.a		\
+	    lib/kernel/kernel.a
 
 
 # Regla: all
 all: kernel.elf
 
 # Regla: kernel.elf
-kernel.elf: $(DEPENDENCIAS) libc
+kernel.elf: $(DEPENDENCIAS) kernel.a libc.a
 	$(LD) $(LDFLAGS) $(DEPENDENCIAS) $(INCLUSIONES) -o kernel.elf
 
-# Regla: libc
-libc:
+# Regla: kernel.a
+kernel.a:
+	$(MAKE) --directory=lib/kernel/
+
+# Regla: libc.a
+libc.a:
 	$(MAKE) --directory=lib/libc/
 
 # Regla: iso

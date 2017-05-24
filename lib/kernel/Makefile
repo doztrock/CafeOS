@@ -1,24 +1,22 @@
 # Compilador C
 CC=gcc
 CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
+CLIBS=-I ../libc/
 
 # Enlazador
 AR=ar
 ARFLAGS=cr
 
 # Objeto
-OBJETO=libc.a
+OBJETO=kernel.a
 
-# Librerias LIBC
-LIBC=stdio.o 	\
-     stdlib.o 	\
-     string.o 	\
-     unistd.o
+# Librerias Kernel
+KERNEL=io.o
 
 
 # Regla: all
-all: $(LIBC)
-	$(AR) $(ARFLAGS) $(OBJETO) $(LIBC)
+all: $(KERNEL)
+	$(AR) $(ARFLAGS) $(OBJETO) $(KERNEL)
 
 # Regla: clean
 clean:
@@ -27,4 +25,4 @@ clean:
 
 # Regla: Archivos .c
 %.o: %.c
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(CLIBS) $< -o $@
