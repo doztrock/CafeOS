@@ -1,7 +1,6 @@
 # Compilador C
 CC=gcc
 CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
-CLIBS=-I ./
 
 # Enlazador
 AR=ar
@@ -28,4 +27,4 @@ clean:
 
 # Regla: Archivos .c
 %.o: %.c
-	$(CC) $(CFLAGS) $(CLIBS) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@

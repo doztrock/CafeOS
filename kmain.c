@@ -1,7 +1,7 @@
 #include "lib/kernel/kernel.h"
 #include "lib/libreria.h"
 
-#include "lib/libc/stdlib.h"
+#include "stdlib.h"
 
 int kmain(void) {
 

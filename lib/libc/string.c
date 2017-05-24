@@ -3,59 +3,35 @@
 /**
  * Funcion:  strcat
  * 
- * Objetivo: Concatenar dos cadenas.
+ * Objetivo: Concatenar el contenido de una cadena al final de otra.
  * 
  * @param  destino  Cadena donde se agregara lo contenido en origen.
  * @param  origen   Cadena contenedora de la informacion a concatenar en destino.
- * @return Puntero hacia la informacion de la cadena de destino.
+ * @return          Puntero hacia la informacion de la cadena de destino.
  */
 char *strcat(char *destino, char *origen) {
 
-    while (*destino != NULL) {
-        ++destino;
-    }
-
-    while (*origen != NULL) {
-        *destino++ = *origen++;
-    }
+    strcpy(&destino[strlen(destino)], origen);
 
     return destino;
 }
 
 /**
- * Funcion:  strncat
- * 
- * Objetivo: Determinar longitud de una cadena.
- * 
- * @param cadena Cadena a la que se le determinara la longitud.
- * @return Longitud de la cadena indicada.
- */
-char *strncat(char *dest, const char *src, size_t n){
-    return NULL;
-}
-
-/**
  * Funcion:  strcpy
  * 
- * Objetivo: Determinar longitud de una cadena.
+ * Objetivo: Copiar el contenido de una cadena a otra.
  * 
- * @param cadena Cadena a la que se le determinara la longitud.
- * @return Longitud de la cadena indicada.
+ * @param   destino Cadena a la que se copiara el contenido de origen.
+ * @param   origen  Cadena contenedora de la informacion a copiar en destino.
+ * @return          Puntero hacia la informacion de la cadena de destino.
  */
-char *strcpy(char *destino, const char *origen){
-    return NULL;
-}
+char *strcpy(char *destino, const char *origen) {
 
-/**
- * Funcion:  strncpy
- * 
- * Objetivo: Determinar longitud de una cadena.
- * 
- * @param cadena Cadena a la que se le determinara la longitud.
- * @return Longitud de la cadena indicada.
- */
-char *strncpy(char *dest, const char *src, size_t n){
-    return NULL;
+    char *puntero = destino;
+
+    while ((*puntero++ = *origen++) != NULL);
+
+    return destino;
 }
 
 /**
@@ -66,20 +42,17 @@ char *strncpy(char *dest, const char *src, size_t n){
  * @param cadena Cadena a la que se le determinara la longitud.
  * @return Longitud de la cadena indicada.
  */
-int strcmp(const char *cadena1, const char *cadena2){
-    return 0;
-}
+int strcmp(const char *cadena1, const char *cadena2) {
 
-/**
- * Funcion:  strncmp
- * 
- * Objetivo: Determinar longitud de una cadena.
- * 
- * @param cadena Cadena a la que se le determinara la longitud.
- * @return Longitud de la cadena indicada.
- */
-int strncmp(const char *str1, const char *str2, size_t n){
-    return 0;
+    for (; *cadena1 == *cadena2; cadena1++, cadena2++) {
+
+        if (*cadena1 == '\0') {
+            return 0;
+        }
+
+    }
+
+    return ((*(unsigned char *) cadena1 < *(unsigned char *) cadena2) ? -1 : +1);
 }
 
 /**
@@ -98,6 +71,6 @@ size_t strlen(const char *cadena) {
     for (copia = cadena; *copia; ++copia);
 
     longitud = (copia - cadena);
-    
+
     return longitud;
 }

@@ -1,10 +1,9 @@
 /**
- * KERNEL.H
+ * Nombre:    KERNEL.H
  * 
- * Aqui se guardaran las distintas constantes que puedan utilizarse
- * a lo largo de la ejecucion del nucleo, de modo que se centralice
- * dicha informacion.
- *
+ * Contenido: Constantes que se podran usar durante la ejecucion del nucleo
+ *            se guardaran en este archivo con proposito de centralizar la informacion.
+ * 
  */
 
 #ifndef KERNEL_H

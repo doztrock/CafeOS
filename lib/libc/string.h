@@ -14,13 +14,9 @@
 #include "stddef.h"
 
 char *strcat(char *destino, char *origen);
-char *strncat(char *dest, const char *src, size_t n);
-
 char *strcpy(char *destino, const char *origen);
-char *strncpy(char *dest, const char *src, size_t n);
 
 int strcmp(const char *cadena1, const char *cadena2);
-int strncmp(const char *str1, const char *str2, size_t n);
 
 size_t strlen(const char *cadena);
 
