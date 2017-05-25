@@ -1,7 +1,7 @@
 # Compilador C
 CC=gcc
 CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
-CLIBS=-I lib/libc/
+CLIBS=-I ./ -I lib/ -I lib/kernel/ -I lib/libc/
 
 # Compilador Assembler
 AS=nasm
@@ -16,23 +16,22 @@ DEPENDENCIAS=loader.o kmain.o		\
 	     lib/libreria.o		\
 
 # Inclusiones
-INCLUSIONES=lib/libc/libc.a		\
-	    lib/kernel/kernel.a
-
+INCLUSIONES=lib/kernel/*.o		\
+	    lib/libc/*.o
 
 # Regla: all
 all: kernel.elf
 
 # Regla: kernel.elf
-kernel.elf: $(DEPENDENCIAS) kernel.a libc.a
+kernel.elf: $(DEPENDENCIAS) libkernel libc
 	$(LD) $(LDFLAGS) $(DEPENDENCIAS) $(INCLUSIONES) -o kernel.elf
 
-# Regla: kernel.a
-kernel.a:
+# Regla: libkernel
+libkernel:
 	$(MAKE) --directory=lib/kernel/
 
-# Regla: libc.a
-libc.a:
+# Regla: libc
+libc:
 	$(MAKE) --directory=lib/libc/
 
 # Regla: iso

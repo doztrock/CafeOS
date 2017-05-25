@@ -1,14 +1,7 @@
 # Compilador C
 CC=gcc
 CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
-CLIBS=-I ./
-
-# Enlazador
-AR=ar
-ARFLAGS=cr
-
-# Objeto
-OBJETO=libc.a
+CLIBS=-I ./ -I ../
 
 # Librerias LIBC
 LIBC=stdio.o 	\
@@ -19,11 +12,9 @@ LIBC=stdio.o 	\
 
 # Regla: all
 all: $(LIBC)
-	$(AR) $(ARFLAGS) $(OBJETO) $(LIBC)
 
 # Regla: clean
 clean:
-	rm -f $(OBJETO)
 	find . -type f -name "*.o" -exec rm {} +
 
 # Regla: Archivos .c
