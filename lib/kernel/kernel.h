@@ -10,8 +10,8 @@
 #define KERNEL_H
 
 /**
- * Posicion del puntero de video
+ * Direccion del video
  */
-#define PUNTERO_VIDEO   0x000B8000
+#define DIRECCION_VIDEO   0x000B8000
 
 #endif /* KERNEL_H */

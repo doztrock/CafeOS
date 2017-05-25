@@ -20,7 +20,7 @@
  */
 void limpiarPantalla(void) {
 
-    char *video = (char*) PUNTERO_VIDEO;
+    char *video = (char*) DIRECCION_VIDEO;
     int i = 0;
 
     for (i = 0; i < 4000; i++) {
