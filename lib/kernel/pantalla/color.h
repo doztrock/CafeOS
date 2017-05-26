@@ -30,7 +30,7 @@ typedef enum __color {
     CIAN_CLARO,
     ROJO_CLARO,
     MAGENTA_CLARO,
-    CAFE_CLARO,
+    AMARILLO,
     BLANCO
 } Color;
 
