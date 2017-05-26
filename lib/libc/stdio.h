@@ -15,10 +15,10 @@
 #include "stdarg.h"
 
 int printf(const char *formato, ...);
-int sprintf(char *str, const char *format, ...);
+int sprintf(char *cadena, const char *formato, ...);
 
-int scanf(const char *format, ...);
+int scanf(const char *formato, ...);
 
-int putchar(int char);
+int putchar(int caracter);
 
 #endif /* STDIO_H */
