@@ -115,7 +115,7 @@ void pintarPantalla(Color color) {
     }
 
     /* Devolvemos el cursor la posicion inicial */
-    moverCursor(40, 12);
+    moverCursor(0, 0);
 
     return;
 }
