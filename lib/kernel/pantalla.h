@@ -10,6 +10,10 @@
 #define PANTALLA_H
 
 #include "kernel.h"
+#include "io.h"
+#include "pantalla/color.h"
+
+#include "stdint.h"
 
 /**
  * Posiciones del cursor    (kernel.h)
@@ -23,5 +27,9 @@ extern unsigned int POSICION_Y;
  */
 void iniciarPantalla(void);
 void limpiarPantalla(void);
+
+void pintarPantalla(Color color);
+
+void actualizarCursor(void);
 
 #endif /* PANTALLA_H */

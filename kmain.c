@@ -6,9 +6,16 @@
 
 int kmain(void) {
 
+    /* Iniciamos la pantalla */
+    iniciarPantalla();
+    
+   
+    
     /* Limpiamos la pantalla */
     limpiarPantalla();
 
+    pintarPantalla(MAGENTA);
+    
     char *fb = (char *) 0x000B8000;
 
     *fb++ = 'c';

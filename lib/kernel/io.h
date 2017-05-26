@@ -11,7 +11,7 @@
 
 #include "stdint.h"
 
-static inline uint8_t inb(uint16_t puerto);
-static inline void outb(uint16_t puerto, uint8_t valor);
+uint8_t inb(uint16_t puerto);
+void outb(uint16_t puerto, uint8_t valor);
 
 #endif /* IO_H */

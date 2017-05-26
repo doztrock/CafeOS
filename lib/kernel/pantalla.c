@@ -34,3 +34,30 @@ void limpiarPantalla(void) {
 
     return;
 }
+
+void pintarPantalla(Color color) {
+
+    char *video = (char*) DIRECCION_VIDEO;
+    int atributo = (color << 4) | (15 & 0x0F);
+    int blank = 0x20 | (atributo << 8);
+    int i = 0;
+
+    for (i = 0; i < 4000; i++) {
+        *video++ = blank;
+    }
+
+    actualizarCursor();
+    
+    return;
+}
+
+void actualizarCursor(void) {
+
+    uint16_t posicionCursor = POSICION_Y * 80 + POSICION_X;
+
+    outb(0x3D4, 14);
+    outb(0x3D5, posicionCursor >> 8);
+    outb(0x3D4, 15);
+    outb(0x3D5, posicionCursor);
+
+}

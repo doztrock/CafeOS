@@ -8,7 +8,7 @@
  * @param   puerto  Direccion E/S del puerto a revisar.
  * @return          Codigo obtenido del puerto.
  */
-static inline uint8_t inb(uint16_t puerto) {
+uint8_t inb(uint16_t puerto) {
 
     uint8_t resultado;
 
@@ -28,6 +28,6 @@ static inline uint8_t inb(uint16_t puerto) {
  * @param  valor     Valor a escribir en el puerto especificado.
  * @return           No tiene ningun valor de retorno.
  */
-static inline void outb(uint16_t puerto, uint8_t valor) {
+void outb(uint16_t puerto, uint8_t valor) {
     asm volatile ("outb %0, %1" : : "a"(valor), "Nd"(puerto));
 }
