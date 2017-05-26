@@ -36,6 +36,7 @@ void limpiarPantalla(void);
 
 void pintarPantalla(Color color);
 
+void moverCursor(uint8_t X, uint8_t Y);
 void actualizarCursor(void);
 
 void testPanic(void);

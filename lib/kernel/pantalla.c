@@ -33,32 +33,71 @@ void iniciarPantalla(void) {
  */
 void limpiarPantalla(void) {
 
-    char *video = (char*) DIRECCION_VIDEO;
+    /* Puntero a la direccion del video */
+    uint16_t *video = (uint16_t *) DIRECCION_VIDEO;
     int i = 0;
 
     for (i = 0; i < 80 * 25; i++) {
-        *video++ = 0x00;
+        video[i] = 0x00;
     }
 
     return;
 }
 
+/**
+ * Funcion:  pintarPantalla
+ * 
+ * Objetivo: Pinta todas las coordenadas contenidas en la pantalla.
+ * 
+ * @param color Color a usar para pintar la pantalla.
+ * @return      No tiene ningun valor de retorno.
+ */
 void pintarPantalla(Color color) {
 
-    uint16_t  *video = (uint16_t *) DIRECCION_VIDEO;
-    int atributo = (color << 4) | (foregroundColor & 0x0F);
-    int blank = 0x20 | (atributo << 8);
+    /* Elemento con el que se pintara la pantalla */
+    int atributo = (color << 4) | (15 & 0x0F);
+    int elemento = 0x20 | (atributo << 8);
+
+    /* Puntero a la direccion del video */
+    uint16_t *video = (uint16_t *) DIRECCION_VIDEO;
     int i = 0;
 
     for (i = 0; i < 80 * 25; i++) {
-        video[i] = blank;
+        video[i] = elemento;
     }
 
+    /* Devolvemos el cursor la posicion inicial */
+    moverCursor(40, 12);
+
+    return;
+}
+
+/**
+ * Funcion:  moverCursor
+ * 
+ * Objetivo: Desplaza la posicion del cursor a traves de coordenadas.
+ * 
+ * @return   No tiene ningun valor de retorno.
+ */
+void moverCursor(uint8_t X, uint8_t Y) {
+
+    /* Asignamos las coordenadas */
+    POSICION_X = X;
+    POSICION_Y = Y;
+
+    /* Actualizamos el cursor */
     actualizarCursor();
 
     return;
 }
 
+/**
+ * Funcion:  actualizarCursor
+ * 
+ * Objetivo: Actualiza la posicion del cursor usando los registros VGA
+ * 
+ * @return   No tiene ningun valor de retorno.
+ */
 void actualizarCursor(void) {
 
     uint16_t posicionCursor = POSICION_Y * 80 + POSICION_X;
@@ -68,12 +107,13 @@ void actualizarCursor(void) {
     outb(0x3D4, 15);
     outb(0x3D5, posicionCursor);
 
+    return;
 }
 
 void testPanic(void) {
 
-    limpiarPantalla();
     pintarPantalla(ROJO);
+    limpiarPantalla();
     actualizarCursor();
 
 }
