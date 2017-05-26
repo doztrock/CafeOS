@@ -21,6 +21,12 @@
 extern unsigned int POSICION_X;
 extern unsigned int POSICION_Y;
 
+/**
+ * Colores de los lados de la pantalla
+ */
+Color backgroundColor;
+Color foregroundColor;
+
 
 /**
  * Funciones
@@ -31,5 +37,7 @@ void limpiarPantalla(void);
 void pintarPantalla(Color color);
 
 void actualizarCursor(void);
+
+void testPanic(void);
 
 #endif /* PANTALLA_H */

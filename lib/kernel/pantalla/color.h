@@ -9,6 +9,20 @@
 #define COLOR_H
 
 /**
+ * Lados de la pantalla, donde se podran colocar los colores. 
+ * Es decir, en la pantalla se puede escribir en dos partes:
+ * 
+ * - Background     (Fondo)
+ * - Foreground     (Primer Plano)
+ * 
+ */
+typedef enum __lado_pantalla {
+    BACKGROUND,
+    FOREGROUND
+} LadoPantalla;
+
+
+/**
  * NOTA: Las pantallas, o bien, el controlador de VGA, solo soporta 16 colores.
  */
 
