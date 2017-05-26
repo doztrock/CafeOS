@@ -14,4 +14,10 @@
  */
 #define DIRECCION_VIDEO   0x000B8000
 
+/**
+ * Posiciones del cursor
+ */
+unsigned int POSICION_X;
+unsigned int POSICION_Y;
+
 #endif /* KERNEL_H */

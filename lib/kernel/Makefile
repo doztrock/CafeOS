@@ -4,7 +4,8 @@ CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles 
 CLIBS=-I ./ -I ../ -I ../libc/
 
 # Librerias Kernel
-KERNEL=io.o
+KERNEL=io.o	    \
+       pantalla.o
 
 
 # Regla: all

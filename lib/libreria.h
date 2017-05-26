@@ -9,16 +9,4 @@
 #ifndef LIBRERIA_H
 #define LIBRERIA_H
 
-#include "kernel/kernel.h"
-
-/**
- * Funcion encargada de:
- * 
- * -Limpiar la pantalla
- * 
- */
-void limpiarPantalla(void);
-
-
 #endif /* LIBRERIA_H */
-
