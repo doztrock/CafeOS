@@ -18,10 +18,58 @@ void iniciarPantalla(void) {
     POSICION_Y = 0;
 
     /* Colores de los lados */
-    backgroundColor = NEGRO;
-    foregroundColor = BLANCO;
+    setBackgroundColor(NEGRO);
+    setForegroundColor(BLANCO);
 
     return;
+}
+
+/**
+ * Funcion:  setBackgroundColor
+ * 
+ * Objetivo: Asigna el color que se usara para el lado de la pantalla -> Fondo (Background)
+ * 
+ * @param color Color a asignar.
+ * @return      No tiene ningun valor de retorno.
+ */
+void setBackgroundColor(Color color) {
+    backgroundColor = color;
+    return;
+}
+
+/**
+ * Funcion:  setForegroundColor
+ * 
+ * Objetivo: Asigna el color que se usara para el lado de la pantalla -> Primer Plano (Foreground)
+ * 
+ * @param color Color a asignar.
+ * @return      No tiene ningun valor de retorno.
+ */
+void setForegroundColor(Color color) {
+    foregroundColor = color;
+    return;
+}
+
+/**
+ * Funcion:  getBackgroundColor
+ * 
+ * Objetivo: Devuelve el color que se usa para el lado de la pantalla -> Fondo (Background)
+ * 
+ * @return   Color usado de Fondo.
+ */
+Color getBackgroundColor(void) {
+    return backgroundColor;
+}
+
+/**
+ * Funcion:  getForegroundColor
+ * 
+ * Objetivo: Devuelve el color que se usa para el lado de la pantalla -> Primer Plano (Foreground)
+ * 
+ * @return   Color usado de Primer Plano.
+ */
+Color getForegroundColor(void) {
+    return foregroundColor;
 }
 
 /**
@@ -112,7 +160,7 @@ void actualizarCursor(void) {
 
 void testPanic(void) {
 
-    pintarPantalla(ROJO);
+    pintarPantalla(AMARILLO);
     limpiarPantalla();
     actualizarCursor();
 
