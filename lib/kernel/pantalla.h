@@ -45,6 +45,4 @@ void setForegroundColor(Color color);
 Color getBackgroundColor(void);
 Color getForegroundColor(void);
 
-void testPanic(void);
-
 #endif /* PANTALLA_H */

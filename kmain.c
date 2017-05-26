@@ -6,8 +6,5 @@
 
 int kmain(void) {
 
-    /** Prueba */
-    testPanic();
-
     return EXIT_SUCCESS;
 }

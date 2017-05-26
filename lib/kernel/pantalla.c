@@ -157,11 +157,3 @@ void actualizarCursor(void) {
 
     return;
 }
-
-void testPanic(void) {
-
-    pintarPantalla(AMARILLO);
-    limpiarPantalla();
-    actualizarCursor();
-
-}
