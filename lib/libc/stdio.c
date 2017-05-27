@@ -8,7 +8,7 @@
  * @param color Color a usar para pintar la pantalla.
  * @return      No tiene ningun valor de retorno.
  */
-int printf(char *formato) {
+int printf(const char *formato) {
 
     unsigned int i;
 
@@ -16,7 +16,7 @@ int printf(char *formato) {
         putchar(formato[i]);
     }
 
-    return 0;
+    return i;
 }
 
 /**

@@ -4,7 +4,7 @@
 #include "stdlib.h"
 
 int kmain(void) {
-
+    
     iniciarPantalla();
 
     limpiarPantalla();
@@ -13,10 +13,8 @@ int kmain(void) {
 
     setForegroundColor(NEGRO);
     setBackgroundColor(AMARILLO);
-
-    char mensaje[7] = "cafeOS";
     
-    printf(mensaje);
+    printf("cafeOS!");
 
     for (;;);
 

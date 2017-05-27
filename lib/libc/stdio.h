@@ -17,7 +17,7 @@
 #include "string.h"
 #include "stdarg.h"
 
-int printf(char *formato);
+int printf(const char *formato);
 //int sprintf(char *cadena, const char *formato, ...);
 //
 //int scanf(const char *formato, ...);
