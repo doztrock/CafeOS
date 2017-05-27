@@ -10,6 +10,17 @@
 #define KERNEL_H
 
 /**
+ * Nombre del Software
+ */
+#define SOFTWARE_NOMBRE     "cafeOS"
+
+/**
+ * Version del Software
+ */
+#define SOFTWARE_VERSION    "0.0.1"
+
+
+/**
  * Direccion del video
  */
 #define DIRECCION_VIDEO   0x000B8000

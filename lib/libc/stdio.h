@@ -12,12 +12,15 @@
 #define STDIO_H
 
 #include "kernel/kernel.h"
+#include "kernel/pantalla.h"
+
+#include "string.h"
 #include "stdarg.h"
 
-int printf(const char *formato, ...);
-int sprintf(char *cadena, const char *formato, ...);
-
-int scanf(const char *formato, ...);
+int printf(char *formato);
+//int sprintf(char *cadena, const char *formato, ...);
+//
+//int scanf(const char *formato, ...);
 
 int putchar(int caracter);
 

@@ -83,7 +83,7 @@ void limpiarPantalla(void) {
 
     /* Puntero a la direccion del video */
     uint16_t *video = (uint16_t *) DIRECCION_VIDEO;
-    int i = 0;
+    int i;
 
     for (i = 0; i < 80 * 25; i++) {
         video[i] = 0x00;
@@ -104,14 +104,14 @@ void pintarPantalla(Color color) {
 
     /* Elemento con el que se pintara la pantalla */
     int atributo = (color << 4) | (15 & 0x0F);
-    int elemento = 0x20 | (atributo << 8);
+    int caracterEspacio = 0x20 | (atributo << 8);
 
     /* Puntero a la direccion del video */
     uint16_t *video = (uint16_t *) DIRECCION_VIDEO;
-    int i = 0;
+    int i;
 
     for (i = 0; i < 80 * 25; i++) {
-        video[i] = elemento;
+        video[i] = caracterEspacio;
     }
 
     /* Devolvemos el cursor la posicion inicial */
