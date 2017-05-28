@@ -1,3 +1,10 @@
+/**
+ * Nombre:    GDT.H
+ * 
+ * Contenido: Funciones respectivas al manejo de la tabla de descriptores globales (gdt).
+ * 
+ */
+
 #ifndef GDT_H
 #define GDT_H
 

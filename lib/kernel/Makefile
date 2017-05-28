@@ -6,6 +6,7 @@ CLIBS=-I ./ -I ../ -I ../libc/
 # Librerias Kernel
 KERNEL=io.o	    \
        gdt.o	    \
+       idt.o	    \
        pantalla.o
 
 

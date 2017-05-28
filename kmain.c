@@ -19,10 +19,10 @@ int kmain(void) {
     iniciarPantalla();
     limpiarPantalla();
 
-    pintarPantalla(BLANCO);
+    pintarPantalla(CAFE);
 
     setForegroundColor(colorDefecto);
-    setBackgroundColor(BLANCO);
+    setBackgroundColor(CAFE);
 
     printf("Bienvenido a cafeOS!\n");
 
