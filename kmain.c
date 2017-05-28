@@ -3,21 +3,45 @@
 
 #include "stdio.h"
 #include "stdlib.h"
+#include "stdbool.h"
 
 int kmain(void) {
-    
-    instalarGDT();
-    
-    iniciarPantalla();
 
+    /**
+     * Color por defecto para el texto.
+     */
+    Color colorDefecto = NEGRO;
+
+
+    /**
+     * Pantalla
+     */
+    iniciarPantalla();
     limpiarPantalla();
 
-    pintarPantalla(AZUL);
+    pintarPantalla(BLANCO);
 
-    setForegroundColor(NEGRO);
-    setBackgroundColor(AMARILLO);
-    
-    printf("cafeOS!");
+    setForegroundColor(colorDefecto);
+    setBackgroundColor(BLANCO);
+
+    printf("Bienvenido a cafeOS!\n");
+
+
+    /**
+     * GDT
+     */
+    printf("Instalando GDT...");
+
+    if (instalarGDT()) {
+        setForegroundColor(VERDE);
+        printf("OK\n");
+    } else {
+        setForegroundColor(ROJO);
+        printf("ERROR\n");
+    }
+
+    setForegroundColor(colorDefecto);
+
 
     for (;;);
 
