@@ -12,7 +12,7 @@ bool instalarGDT(void) {
     GDTP.limit = (sizeof (struct GDT_Entrada) * 3) - 1;
     GDTP.base = (uint32_t) & GDT;
 
-    setEntradaGDT(NULL, NULL, NULL, NULL, NULL); /* Entrada NULL */
+    setEntradaGDT(0, NULL, NULL, NULL, NULL); /* Entrada NULL */
     setEntradaGDT(1, 0, 0xFFFFFFFF, 0x9A, 0xCF); /* Entrada seccion data -> 4GB */
     setEntradaGDT(2, 0, 0xFFFFFFFF, 0x92, 0xCF); /* Entrada seccion code -> 4GB */
 
