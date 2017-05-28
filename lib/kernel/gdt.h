@@ -1,7 +1,9 @@
 #ifndef GDT_H
 #define GDT_H
 
+#include "stddef.h"
 #include "stdint.h"
+#include "stdbool.h"
 
 /**
  * Entrada GDT
@@ -29,8 +31,17 @@ struct GDT_Puntero {
 struct GDT_Entrada GDT[3];
 
 /**
- * Tabla de Punteros GDT
+ * Puntero GDT
  */
-struct GDT_Puntero GDPT;
+struct GDT_Puntero GDTP;
+
+
+/**
+ * Funciones
+ */
+bool instalarGDT(void);
+void limpiarGDT(void);
+
+void setEntradaGDT(int indice, uint32_t base, uint32_t limite, uint8_t acceso, uint8_t granularidad);
 
 #endif /* GDT_H */
