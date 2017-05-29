@@ -8,6 +8,7 @@ KERNEL=io.o		\
        gdt.o		\
        idt.o		\
        isr.o		\
+       irq.o		\
        pantalla.o	\
        panico/panico.o
 
