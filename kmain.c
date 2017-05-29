@@ -1,5 +1,6 @@
 #include "lib/kernel/pantalla.h"
 #include "lib/kernel/gdt.h"
+#include "lib/kernel/idt.h"
 
 #include "stdio.h"
 #include "stdlib.h"
@@ -30,7 +31,7 @@ int kmain(void) {
     /**
      * GDT
      */
-    printf("Instalando GDT...");
+    printf("Iniciando GDT...");
 
     if (instalarGDT()) {
         setForegroundColor(VERDE);
@@ -42,6 +43,21 @@ int kmain(void) {
 
     setForegroundColor(colorDefecto);
 
+
+    /**
+     * IDT
+     */
+    printf("Iniciando IDT...");
+
+    if (instalarIDT()) {
+        setForegroundColor(VERDE);
+        printf("OK\n");
+    } else {
+        setForegroundColor(ROJO);
+        printf("ERROR\n");
+    }
+
+    setForegroundColor(colorDefecto);
 
     for (;;);
 
