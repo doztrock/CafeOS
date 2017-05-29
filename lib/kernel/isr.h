@@ -52,6 +52,7 @@ struct ISR_Informacion {
     uint32_t eip, cs, eflags, useresp, ss;
 };
 
+
 /**
  * Funciones
  */
