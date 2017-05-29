@@ -1,12 +1,15 @@
 #include "lib/kernel/pantalla.h"
 #include "lib/kernel/gdt.h"
 #include "lib/kernel/idt.h"
+#include "lib/kernel/irq.h"
 
 #include "stdio.h"
 #include "stdlib.h"
 #include "stdbool.h"
 
 int kmain(void) {
+
+    asm volatile("cli");
 
     /**
      * Color por defecto para el texto.
@@ -31,7 +34,7 @@ int kmain(void) {
     /**
      * GDT
      */
-    printf("Iniciando GDT...");
+    printf("Instalando GDT...");
 
     if (instalarGDT()) {
         setForegroundColor(VERDE);
@@ -47,7 +50,7 @@ int kmain(void) {
     /**
      * IDT
      */
-    printf("Iniciando IDT...");
+    printf("Instalando IDT...");
 
     if (instalarIDT()) {
         setForegroundColor(VERDE);
@@ -58,6 +61,24 @@ int kmain(void) {
     }
 
     setForegroundColor(colorDefecto);
+
+
+    /**
+     * IRQ
+     */
+    printf("Instalando IRQ...");
+
+    if (instalarIRQ()) {
+        setForegroundColor(VERDE);
+        printf("OK\n");
+    } else {
+        setForegroundColor(ROJO);
+        printf("ERROR\n");
+    }
+
+    setForegroundColor(colorDefecto);
+
+    asm volatile("sti");
 
     for (;;);
 

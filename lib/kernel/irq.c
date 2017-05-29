@@ -6,25 +6,8 @@ bool instalarIRQ(void) {
     remapearIRQ(0x20, 0x28);
 
     /* Agregamos los IRQ a la IDT */
-    setEntradaIDT(32, (unsigned) IRQ1, 0x08, 0x8E);
-    setEntradaIDT(33, (unsigned) IRQ2, 0x08, 0x8E);
-    setEntradaIDT(34, (unsigned) IRQ3, 0x08, 0x8E);
-    setEntradaIDT(35, (unsigned) IRQ4, 0x08, 0x8E);
-    setEntradaIDT(36, (unsigned) IRQ5, 0x08, 0x8E);
-    setEntradaIDT(37, (unsigned) IRQ6, 0x08, 0x8E);
-    setEntradaIDT(38, (unsigned) IRQ7, 0x08, 0x8E);
-    setEntradaIDT(39, (unsigned) IRQ8, 0x08, 0x8E);
-    setEntradaIDT(40, (unsigned) IRQ9, 0x08, 0x8E);
-    setEntradaIDT(41, (unsigned) IRQ10, 0x08, 0x8E);
-    setEntradaIDT(42, (unsigned) IRQ11, 0x08, 0x8E);
-    setEntradaIDT(43, (unsigned) IRQ12, 0x08, 0x8E);
-    setEntradaIDT(44, (unsigned) IRQ13, 0x08, 0x8E);
-    setEntradaIDT(45, (unsigned) IRQ14, 0x08, 0x8E);
-    setEntradaIDT(46, (unsigned) IRQ15, 0x08, 0x8E);
-    setEntradaIDT(47, (unsigned) IRQ16, 0x08, 0x8E);
-
-    /* Activamos las IRQ */
-    asm volatile("sti");
+    setEntradaIDT(32, (uint32_t) IRQ1, 0x08, 0x8E);
+    setEntradaIDT(33, (uint32_t) IRQ2, 0x08, 0x8E);
 
     return true;
 }
@@ -37,20 +20,24 @@ void remapearIRQ(int pic1, int pic2) {
     outb(PIC1 + 1, pic1);
     outb(PIC2 + 1, pic2);
 
-    outb(PIC1 + 1, 4);
-    outb(PIC2 + 1, 2);
+    outb(PIC1 + 1, 0x04);
+    outb(PIC2 + 1, 0x02);
 
     outb(PIC1 + 1, ICW4);
     outb(PIC2 + 1, ICW4);
 
-    outb(PIC1 + 1, 0xFF);
+    outb(PIC1 + 1, 0x01);
+    outb(PIC2 + 1, 0x01);
+
+    outb(PIC1 + 1, 0x00);
+    outb(PIC2 + 1, 0x00);
 
     return;
 }
 
 void IRQManejador(struct ISR_Informacion *informacion) {
 
-    void (*manejador)(struct ISR_Informacion * informacionISR);
+    //void (*manejador)(struct ISR_Informacion * informacionISR);
 
     if (informacion->int_no >= 40) {
         outb(0xA0, 0x20);
@@ -63,27 +50,28 @@ void IRQManejador(struct ISR_Informacion *informacion) {
 void IRQComun(void) {
 
     asm volatile(
-                "pusha \n"
-                "push %ds\n"
-                "push %es\n"
-                "push %fs\n"
-                "push %gs\n"
+                "popl %ebp	   \n"
+                "pushal	   \n"
+                "pushl	%ds\n"
+                "pushl	%es\n"
+                "pushl	%fs\n"
+                "pushl	%gs\n"
                 "movw $0x10, %ax \n"
                 "movw %ax, %ds \n"
                 "movw %ax, %es \n"
                 "movw %ax, %fs \n"
                 "movw %ax, %gs \n"
-                "movl %esp, %eax \n"
-                "push %eax \n"
+                "pushl %esp \n"
                 "movl $IRQManejador, %eax \n"
                 "call *%eax \n"
-                "popl %eax \n"
-                "popl %ds \n"
-                "popl %es \n"
-                "popl %fs \n"
+                "popl %esp \n"
                 "popl %gs \n"
-                "popa \n"
-                "addl 8, %esp \n"
+                "popl %fs \n"
+                "popl %es \n"
+                "popl %ds \n"
+                "popal    \n"
+                "add $0x8, %esp \n"
+                "sti	\n"
                 "iret \n"
                 );
 
@@ -106,146 +94,6 @@ void IRQ2(void) {
                 "cli	\n"
                 "pushl	$0x00\n"
                 "pushl	$0x21\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ3(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x22\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ4(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x23\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ5(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x24\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ6(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x25\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ7(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x26\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ8(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x27\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ9(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x28\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ10(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x29\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ11(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x2A\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ12(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x2B\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ13(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x2C\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ14(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x2D\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ15(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x2E\n"
-                "jmp IRQComun"
-                );
-}
-
-void IRQ16(void) {
-    asm volatile(
-                "popl %ebp	   \n"
-                "cli	\n"
-                "pushl	$0x00\n"
-                "pushl	$0x2F\n"
                 "jmp IRQComun"
                 );
 }
