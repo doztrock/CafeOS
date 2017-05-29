@@ -7,6 +7,7 @@ CLIBS=-I ./ -I ../ -I ../libc/
 KERNEL=io.o	    \
        gdt.o	    \
        idt.o	    \
+       isr.o	    \
        pantalla.o
 
 

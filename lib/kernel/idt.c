@@ -71,4 +71,7 @@ void setEntradaIDT(int indice, uint32_t base, uint16_t segmento, uint8_t bandera
  */
 void llenarIDT(void) {
 
+    setEntradaIDT(0, (unsigned) ISR0, 0x08, 0x8E);
+
+
 }

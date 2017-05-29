@@ -40,5 +40,24 @@
 #ifndef ISR_H
 #define ISR_H
 
+#include "stdint.h"
+
+/**
+ * Esta estructura contiene la informacion respectiva a la interrupcion generada.
+ */
+struct ISR_Informacion {
+    uint32_t ds;
+    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
+    uint32_t int_no, err_code;
+    uint32_t eip, cs, eflags, useresp, ss;
+};
+
+/**
+ * Funciones
+ */
+void ISRManejador(struct ISR_Informacion *informacion);
+void ISRComun(void);
+
+void ISR0(void);
 
 #endif /* ISR_H */

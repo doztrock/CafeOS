@@ -1,5 +1,5 @@
 /**
- * Nombre:    IO.H
+ * Nombre:    IDT.H
  * 
  * Contenido: Funciones respectivas al manejo de la tabla de descripcion de interruptores (idt).
  * 
@@ -7,6 +7,8 @@
 
 #ifndef IDT_H
 #define IDT_H
+
+#include "isr.h"
 
 #include "string.h"
 #include "stdint.h"
