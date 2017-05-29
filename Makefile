@@ -12,11 +12,11 @@ LD=ld
 LDFLAGS=-T link.ld -melf_i386
 
 # Dependencias
-DEPENDENCIAS=loader.o kmain.o		\
-	     lib/libreria.o		\
+DEPENDENCIAS=loader.o kmain.o
 
 # Inclusiones
 INCLUSIONES=lib/kernel/*.o		\
+	    lib/kernel/*/*.o		\
 	    lib/libc/*.o
 
 # Regla: all
