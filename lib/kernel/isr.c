@@ -11,7 +11,9 @@
 void ISRManejador(struct ISR_Informacion *informacion) {
 
     if (informacion->int_no < 32) {
-        //Que hacer cuando ocurra una interrupcion
+        mostrarMensajePanico(obtenerMensajeISR(informacion->int_no));
+    } else {
+        mostrarMensajePanico("Desconocido");
     }
 
     for (;;);

@@ -8,4 +8,11 @@
 #ifndef PANICO_H
 #define PANICO_H
 
+#include "../pantalla.h"
+#include "../pantalla/color.h"
+
+#include "stdio.h"
+
+void mostrarMensajePanico(char *mensaje);
+
 #endif /* PANICO_H */

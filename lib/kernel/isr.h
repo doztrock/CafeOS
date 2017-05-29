@@ -40,6 +40,8 @@
 #ifndef ISR_H
 #define ISR_H
 
+#include "panico/panico.h"
+
 #include "stdint.h"
 
 /**
