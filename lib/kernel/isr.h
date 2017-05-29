@@ -56,8 +56,41 @@ struct ISR_Informacion {
  * Funciones
  */
 void ISRManejador(struct ISR_Informacion *informacion);
+char *obtenerMensajeISR(int indice);
+
 void ISRComun(void);
 
 void ISR0(void);
+void ISR1(void);
+void ISR2(void);
+void ISR3(void);
+void ISR4(void);
+void ISR5(void);
+void ISR6(void);
+void ISR7(void);
+void ISR8(void);
+void ISR9(void);
+void ISR10(void);
+void ISR11(void);
+void ISR12(void);
+void ISR13(void);
+void ISR14(void);
+void ISR15(void);
+void ISR16(void);
+void ISR17(void);
+void ISR18(void);
+void ISR19(void);
+void ISR20(void);
+void ISR21(void);
+void ISR22(void);
+void ISR23(void);
+void ISR24(void);
+void ISR25(void);
+void ISR26(void);
+void ISR27(void);
+void ISR28(void);
+void ISR29(void);
+void ISR30(void);
+void ISR31(void);
 
 #endif /* ISR_H */
