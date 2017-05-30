@@ -4,8 +4,8 @@
 
 #include "io.h"
 #include "idt.h"
+#include "isr.h"
 
-#include "stdint.h"
 #include "stdbool.h"
 
 /**
@@ -33,5 +33,19 @@ void IRQComun(void);
 
 void IRQ1(void);
 void IRQ2(void);
+void IRQ3(void);
+void IRQ4(void);
+void IRQ5(void);
+void IRQ6(void);
+void IRQ7(void);
+void IRQ8(void);
+void IRQ9(void);
+void IRQ10(void);
+void IRQ11(void);
+void IRQ12(void);
+void IRQ13(void);
+void IRQ14(void);
+void IRQ15(void);
+void IRQ16(void);
 
 #endif /* IRQ_H */

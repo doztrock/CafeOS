@@ -51,6 +51,5 @@ bool instalarIDT(void);
 void limpiarIDT(void);
 
 void setEntradaIDT(int indice, uint32_t base, uint16_t segmento, uint8_t banderas);
-void llenarIDT(void);
 
 #endif /* IDT_H */

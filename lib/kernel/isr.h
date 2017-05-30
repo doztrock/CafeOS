@@ -48,7 +48,7 @@
  * Esta estructura contiene la informacion respectiva a la interrupcion generada.
  */
 struct ISR_Informacion {
-    uint32_t ds;
+    uint32_t gs, fs, es, ds;
     uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
     uint32_t int_no, err_code;
     uint32_t eip, cs, eflags, useresp, ss;
@@ -63,7 +63,6 @@ char *obtenerMensajeISR(int indice);
 
 void ISRComun(void);
 
-void ISR0(void);
 void ISR1(void);
 void ISR2(void);
 void ISR3(void);
@@ -95,5 +94,6 @@ void ISR28(void);
 void ISR29(void);
 void ISR30(void);
 void ISR31(void);
+void ISR32(void);
 
 #endif /* ISR_H */
