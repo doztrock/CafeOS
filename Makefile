@@ -37,16 +37,7 @@ libc:
 # Regla: iso
 iso: kernel.elf
 	cp kernel.elf iso/boot/kernel.elf
-	genisoimage -R                          \
-                -b boot/grub/stage		\
-                -no-emul-boot                   \
-                -boot-load-size 4               \
-                -A os                           \
-                -input-charset utf8             \
-                -quiet                          \
-                -boot-info-table                \
-                -o cafeOS.iso		    	\
-                iso
+	grub-mkrescue -o cafeOS.iso iso/
 
 # Regla: Archivos .c
 %.o: %.c
@@ -55,6 +46,10 @@ iso: kernel.elf
 # Regla: Archivos .s
 %.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
+
+# Regla: run
+run: iso
+	qemu-system-i386 cafeOS.iso
 
 # Regla: clean
 clean:
