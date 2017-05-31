@@ -1,15 +1,11 @@
 # Compilador C
 CC=gcc
-CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
+CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
 CLIBS=-I ./ -I lib/ -I lib/kernel/ -I lib/libc/
 
 # Compilador Assembler
-AS=nasm
-ASFLAGS=-f elf
-
-# Enlazador
-LD=ld
-LDFLAGS=-T link.ld -melf_i386
+AS=as
+ASFLAGS=-c
 
 # Dependencias
 DEPENDENCIAS=loader.o kmain.o
@@ -24,7 +20,7 @@ all: kernel.elf
 
 # Regla: kernel.elf
 kernel.elf: $(DEPENDENCIAS) libkernel libc
-	$(LD) $(LDFLAGS) $(DEPENDENCIAS) $(INCLUSIONES) -o kernel.elf
+	$(CC) $(CFLAGS) -o kernel.elf -T link.ld $(DEPENDENCIAS) $(INCLUSIONES)
 
 # Regla: libkernel
 libkernel:
@@ -41,15 +37,15 @@ iso: kernel.elf
 
 # Regla: Archivos .c
 %.o: %.c
-	$(CC) $(CFLAGS) $(CLIBS) $< -o $@
+	$(CC) $(CFLAGS) $(CLIBS) -c $< -o $@
 
 # Regla: Archivos .s
 %.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 # Regla: run
-run: iso
-	qemu-system-i386 cafeOS.iso
+run:
+	qemu-system-i386 -cdrom cafeOS.iso
 
 # Regla: clean
 clean:

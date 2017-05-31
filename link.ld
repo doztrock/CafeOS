@@ -1,26 +1,35 @@
-ENTRY(loader)                /* Funcion en Assembler */
+ENTRY(loader)
+SECTIONS
+{
+    . = 0x00100000;
 
-SECTIONS {
-    . = 0x00100000;          /* El codigo debe estar cargado en 1MB*/
-
-    .text: ALIGN (0x1000) :   /* Alineamiento a 4KB*/
+    .multiboot_header :
     {
-        *(.text)             
+        *(.multiboot_header)
     }
 
-    .rodata: ALIGN (0x1000) : /* Alineamiento a 4KB*/ 
+    .text :
     {
-        *(.rodata*)          
+        code = .; _code = .; __code = .;
+        *(.text)
+        . = ALIGN(4096);
     }
 
-    .data ALIGN (0x1000) :   /* Alineamiento a 4KB*/
+    .data :
     {
-        *(.data)             
+        data = .; _data = .; __data = .;
+        *(.data)
+        *(.rodata)
+        . = ALIGN(4096);
     }
 
-    .bss ALIGN (0x1000) :    /* Alineamiento a 4KB*/
+    .bss :
     {
-        *(COMMON)            
-        *(.bss)              
+        bss = .; _bss = .; __bss = .;
+        *(.bss)
+        . = ALIGN(4096);
     }
+
+    end = .; _end = .; __end = .;
 }
+

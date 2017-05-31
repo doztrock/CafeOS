@@ -13,7 +13,6 @@ bool instalarIRQ(void) {
     setEntradaIDT(36, (uint32_t) IRQ5, 0x08, 0x8E);
     setEntradaIDT(37, (uint32_t) IRQ6, 0x08, 0x8E);
     setEntradaIDT(38, (uint32_t) IRQ7, 0x08, 0x8E);
-    /*
     setEntradaIDT(39, (uint32_t) IRQ8, 0x08, 0x8E);
     setEntradaIDT(40, (uint32_t) IRQ9, 0x08, 0x8E);
     setEntradaIDT(41, (uint32_t) IRQ10, 0x08, 0x8E);
@@ -23,7 +22,8 @@ bool instalarIRQ(void) {
     setEntradaIDT(45, (uint32_t) IRQ14, 0x08, 0x8E);
     setEntradaIDT(46, (uint32_t) IRQ15, 0x08, 0x8E);
     setEntradaIDT(47, (uint32_t) IRQ16, 0x08, 0x8E);
-     */
+
+    asm volatile("sti");
 
     return true;
 }
