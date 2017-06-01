@@ -51,5 +51,4 @@ run:
 clean:
 	rm -f kernel.elf cafeOS.iso
 	find . -type f -name "*.o" -exec rm {} +
-	find . -type f -name "*.a" -exec rm {} +
 	find . -type f -name "*.elf" -exec rm {} +
