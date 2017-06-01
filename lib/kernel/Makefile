@@ -1,6 +1,6 @@
 # Compilador C
 CC=gcc
-CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
+CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -c
 CLIBS=-I ./ -I ../ -I ../libc/
 
 # Librerias Kernel
@@ -10,7 +10,8 @@ KERNEL=io.o		\
        isr.o		\
        irq.o		\
        pantalla.o	\
-       panico/panico.o
+       panico/panico.o	\
+       temporizador.o
 
 
 # Regla: all
