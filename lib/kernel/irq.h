@@ -6,6 +6,7 @@
 #include "idt.h"
 #include "isr.h"
 
+#include "stddef.h"
 #include "stdbool.h"
 
 /**
@@ -26,6 +27,9 @@
  */
 bool instalarIRQ(void);
 void remapearIRQ(int pic1, int pic2);
+
+void instalarManejadorIRQ(int indice, void (*manejador)(struct ISR_Informacion *informacion));
+void desinstalarManejadorIRQ(int indice);
 
 void IRQManejador(struct ISR_Informacion *informacion);
 

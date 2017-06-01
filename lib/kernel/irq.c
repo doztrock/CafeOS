@@ -1,5 +1,20 @@
 #include "irq.h"
 
+/**
+ * Listado de interrupciones
+ */
+void *IRQ[16] = {NULL};
+
+void instalarManejadorIRQ(int indice, void (*manejador)(struct ISR_Informacion *informacion)) {
+    IRQ[indice] = (void *) manejador;
+    return;
+}
+
+void desinstalarManejadorIRQ(int indice) {
+    IRQ[indice] = NULL;
+    return;
+}
+
 bool instalarIRQ(void) {
 
     /* Remapeamos la tabla */
@@ -49,15 +64,21 @@ void remapearIRQ(int pic1, int pic2) {
     return;
 }
 
-void IRQManejador(struct ISR_Informacion *informacion) {
+void IRQManejador(struct ISR_Informacion * informacion) {
 
-    //    void (*manejador)(struct ISR_Informacion * informacion);
+    void (*manejador)(struct ISR_Informacion * informacion);
 
-    if (informacion->int_no >= 40) {
-        outb(0xA0, 0x20);
-    } else {
-        outb(0x20, 0x20);
+    manejador = (void (*)(struct ISR_Informacion * informacion))IRQ[informacion->int_no - 0x20];
+
+    if (manejador != NULL) {
+        manejador(informacion);
     }
+
+    if (informacion->int_no >= 0x28) {
+        outb(0xA0, 0x20);
+    }
+
+    outb(0x20, 0x20);
 
     return;
 }
