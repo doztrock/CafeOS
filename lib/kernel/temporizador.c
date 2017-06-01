@@ -15,7 +15,7 @@ bool configurarTemporizador(int hertz) {
     outb(0x40, divisor & 0xFF);
     outb(0x40, divisor >> 8);
 
-    return;
+    return true;
 }
 
 void esperarTemporizador(int ticks) {

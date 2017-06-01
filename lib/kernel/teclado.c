@@ -38,5 +38,11 @@ unsigned char obtenerCaracterTeclado(void) {
 
 char *obtenerCadenaTeclado(void) {
 
+    while (BUFFER_TECLADO[INDICE_BUFFER_TECLADO - 1] != '\n') {
+
+    }
+
+    INDICE_BUFFER_TECLADO = 0;
+    return BUFFER_TECLADO;
 }
 
