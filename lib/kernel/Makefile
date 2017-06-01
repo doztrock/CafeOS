@@ -11,7 +11,8 @@ KERNEL=io.o		\
        irq.o		\
        pantalla.o	\
        panico/panico.o	\
-       temporizador.o
+       temporizador.o	\
+       teclado.o
 
 
 # Regla: all

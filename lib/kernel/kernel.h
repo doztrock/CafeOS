@@ -21,9 +21,15 @@
 
 
 /**
- * Direccion del video
+ * Direccion I/O del video
  */
-#define DIRECCION_VIDEO   0x000B8000
+#define DIRECCION_VIDEO     0x000B8000
+
+/**
+ * Direccion I/O del teclado
+ */
+#define DIRECCION_TECLADO   0x60
+
 
 /**
  * Posiciones del cursor

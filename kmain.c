@@ -3,6 +3,7 @@
 #include "lib/kernel/idt.h"
 #include "lib/kernel/irq.h"
 #include "lib/kernel/temporizador.h"
+#include "lib/kernel/teclado.h"
 
 #include "stdio.h"
 #include "stdlib.h"
@@ -95,6 +96,23 @@ int kmain(void) {
     }
 
     setForegroundColor(colorDefecto);
+
+
+    /**
+     * Teclado
+     */
+    printf("Instalando Teclado...");
+
+    if (instalarTeclado()) {
+        setForegroundColor(VERDE);
+        printf("OK\n");
+    } else {
+        setForegroundColor(ROJO);
+        printf("ERROR\n");
+    }
+
+    setForegroundColor(colorDefecto);
+
 
     /* Iniciamos la interrupciones */
     asm volatile("sti");
