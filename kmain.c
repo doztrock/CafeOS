@@ -2,6 +2,7 @@
 #include "lib/kernel/gdt.h"
 #include "lib/kernel/idt.h"
 #include "lib/kernel/irq.h"
+#include "lib/kernel/temporizador.h"
 
 #include "stdio.h"
 #include "stdlib.h"
@@ -9,6 +10,7 @@
 
 int kmain(void) {
 
+    /* Limpiamos la interrupciones */
     asm volatile("cli");
 
     /**
@@ -78,8 +80,30 @@ int kmain(void) {
 
     setForegroundColor(colorDefecto);
 
+
+    /**
+     * Temporizador
+     */
+    printf("Instalando Temporizador...");
+
+    if (instalarTemporizador() && configurarTemporizador(HERTZ_TEMPORIZADOR)) {
+        setForegroundColor(VERDE);
+        printf("OK\n");
+    } else {
+        setForegroundColor(ROJO);
+        printf("ERROR\n");
+    }
+
+    setForegroundColor(colorDefecto);
+
+    /* Iniciamos la interrupciones */
     asm volatile("sti");
 
+    printf("Esperando 1 segundo...");
+    esperarTemporizador(TICKS_POR_SEGUNDO);
+    printf("OK\n");
+
+    /* Dejamos un bucle infinito */
     for (;;);
 
     return EXIT_SUCCESS;
