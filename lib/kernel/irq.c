@@ -23,8 +23,6 @@ bool instalarIRQ(void) {
     setEntradaIDT(46, (uint32_t) IRQ15, 0x08, 0x8E);
     setEntradaIDT(47, (uint32_t) IRQ16, 0x08, 0x8E);
 
-    asm volatile("sti");
-
     return true;
 }
 
