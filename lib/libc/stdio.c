@@ -59,7 +59,7 @@ int putchar(int caracter) {
     }
 
     /* En caso que necesitemos hacer scroll (desplazamiento) */
-    byteAtributo = (0 << 4) | (15 & 0x0F);
+    byteAtributo = (backgroundColor << 4) | (foregroundColor & 0x0F);
     uint16_t caracterEspacio = 0x20 | (byteAtributo << 8);
 
     if (POSICION_Y >= 25) {
