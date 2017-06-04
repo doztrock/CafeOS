@@ -18,9 +18,6 @@
 #include "stdarg.h"
 
 int printf(const char *formato);
-//int sprintf(char *cadena, const char *formato, ...);
-//
-//int scanf(const char *formato, ...);
 
 int putchar(int caracter);
 

@@ -136,7 +136,7 @@ int strcmp(const char *cadena1, const char *cadena2) {
  * Objetivo: Determinar longitud de una cadena.
  * 
  * @param cadena Cadena a la que se le determinara la longitud.
- * @return Longitud de la cadena indicada.
+ * @return       Longitud de la cadena indicada.
  */
 size_t strlen(const char *cadena) {
 

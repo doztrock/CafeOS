@@ -16,10 +16,10 @@
 #include "stdint.h"
 
 /**
- * Posiciones del cursor    (kernel.h)
+ * Posiciones del cursor
  */
-extern unsigned int POSICION_X;
-extern unsigned int POSICION_Y;
+unsigned int POSICION_X;
+unsigned int POSICION_Y;
 
 /**
  * Colores de los lados de la pantalla

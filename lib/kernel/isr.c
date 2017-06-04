@@ -112,7 +112,6 @@ void ISRComun(void) {
  * De aqui en adelante se encuentran las funciones que "atraparan" cada una de las interrupciones.
  */
 
-
 void ISR1(void) {
     asm volatile(
                 "popl %ebp	   \n"

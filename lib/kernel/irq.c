@@ -5,16 +5,40 @@
  */
 void *IRQ[16] = {NULL};
 
+/**
+ * Funcion:  instalarManejadorIRQ
+ * 
+ * Objetivo: Instalar el manejador de las interrupciones causadas por los dispositivos.
+ * 
+ * @param indice    Indice del manejador en el listado de interrupciones.
+ * @param manejador Funcion de callback a la que se llamara cuando se produzca la interrupcion, esta sera guardada en la tabla IRQ.
+ * @return          No tiene ningun valor de retorno.
+ */
 void instalarManejadorIRQ(int indice, void (*manejador)(struct ISR_Informacion *informacion)) {
     IRQ[indice] = (void *) manejador;
     return;
 }
 
+/**
+ * Funcion:  desinstalarManejadorIRQ
+ * 
+ * Objetivo: Manejar la interrupcion recibida.
+ * 
+ * @param indice Indice del manejador a remover del listado de interrupciones.
+ * @return       No tiene ningun valor de retorno.
+ */
 void desinstalarManejadorIRQ(int indice) {
     IRQ[indice] = NULL;
     return;
 }
 
+/**
+ * Funcion:  instalarIRQ
+ * 
+ * Objetivo: Inicializar la tabla de descripcion de solicitud de interrupciones (irq).
+ * 
+ * @return   TRUE si se inicializo correctamente, FALSE en caso contrario.
+ */
 bool instalarIRQ(void) {
 
     /* Remapeamos la tabla */
@@ -41,6 +65,16 @@ bool instalarIRQ(void) {
     return true;
 }
 
+/**
+ * Funcion:  remapearIRQ
+ * 
+ * Objetivo: Realizar el remapeo de la tabla de la tabla de descripcion de interrupciones (idt).
+ *           Para poder luego de esta agregar las interrupciones causadas por los dispositivos.
+ * 
+ * @param pic1 Direccion E/S usada para el remapeo.
+ * @param pic2 Direccion E/S usada para el remapeo.
+ * @return     No tiene ningun valor de retorno.
+ */
 void remapearIRQ(int pic1, int pic2) {
 
     outb(PIC1, ICW1);
@@ -64,6 +98,14 @@ void remapearIRQ(int pic1, int pic2) {
     return;
 }
 
+/**
+ * Funcion:  IRQManejador
+ * 
+ * Objetivo: Manejar la interrupcion recibida.
+ * 
+ * @param informacion Estructura con la informacion recibida de la interrupcion.
+ * @return            No tiene ningun valor de retorno.
+ */
 void IRQManejador(struct ISR_Informacion * informacion) {
 
     void (*manejador)(struct ISR_Informacion * informacion);
@@ -83,6 +125,15 @@ void IRQManejador(struct ISR_Informacion * informacion) {
     return;
 }
 
+/**
+ * Funcion:  IRQComun
+ * 
+ * Objetivo: Ser "puente" entre la informacion de la interrupcion y la funcion IRQManejador, 
+ *           es decir cuando se ejecute la funcion de la interrupcion, 
+ *           esta funcion enviara los datos respectivos a IRQManejador.
+
+ * @return   No tiene ningun valor de retorno.
+ */
 void IRQComun(void) {
 
     asm volatile(
@@ -113,6 +164,10 @@ void IRQComun(void) {
 
     return;
 }
+
+/**
+ * De aqui en adelante se encuentran las funciones que "atraparan" cada una de las interrupciones.
+ */
 
 void IRQ1(void) {
     asm volatile(

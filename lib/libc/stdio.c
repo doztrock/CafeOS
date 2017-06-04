@@ -3,10 +3,10 @@
 /**
  * Funcion:  printf
  * 
- * Objetivo: Descripcion PENDIENTE.
+ * Objetivo: Escribir un texto en la salida estandar.
  * 
- * @param color Color a usar para pintar la pantalla.
- * @return      No tiene ningun valor de retorno.
+ * @param formato Texto a imprimir en la pantalla.
+ * @return        Cantidad de caracteres escritos.
  */
 int printf(const char *formato) {
 
@@ -22,10 +22,10 @@ int printf(const char *formato) {
 /**
  * Funcion:  putchar
  * 
- * Objetivo: Descripcion PENDIENTE..
+ * Objetivo: Escribe un caracter en la pantalla.
  * 
- * @param color Color a usar para pintar la pantalla.
- * @return      No tiene ningun valor de retorno.
+ * @param caracter Caracter a escribir.
+ * @return         Caracter escrito convertido a unsigned char.
  */
 int putchar(int caracter) {
 
@@ -78,5 +78,5 @@ int putchar(int caracter) {
     }
 
     actualizarCursor();
-    return caracter;
+    return (unsigned char) caracter;
 }

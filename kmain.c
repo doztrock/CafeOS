@@ -1,3 +1,15 @@
+/**
+ * Nombre:    KMAIN.C
+ * 
+ * Contenido: Funcion principal del sistema operativo.
+ * 
+ * Nota:      Esta es la primera funcion que se ejecuta en la secuencia de boot.
+ *            Desde aqui se deben llamar a las otras funciones 
+ *            respectivas al manejo del sistema operativo
+ * 
+ * Autor:     Ivan Botero <ivan.botero@protonmail.ch>
+ */
+
 #include "lib/kernel/pantalla.h"
 #include "lib/kernel/gdt.h"
 #include "lib/kernel/idt.h"

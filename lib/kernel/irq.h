@@ -1,3 +1,11 @@
+/**
+ * Nombre:    IRQ.H
+ * 
+ * Contenido: Funciones respectivas al manejo de las interrupciones, 
+ *            en este caso de las IRQ (Interrupt ReQuest), 
+ *            las cuales son generadas por los dispositivos.
+ * 
+ */
 
 #ifndef IRQ_H
 #define IRQ_H

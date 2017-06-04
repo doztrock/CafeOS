@@ -1,3 +1,10 @@
+/**
+ * Nombre:    TECLADO.H
+ * 
+ * Contenido: Funciones y Constantes usadas para el manejo del Teclado.
+ * 
+ */
+
 #ifndef TECLADO_H
 #define TECLADO_H
 

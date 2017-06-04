@@ -31,10 +31,4 @@
 #define DIRECCION_TECLADO   0x60
 
 
-/**
- * Posiciones del cursor
- */
-unsigned int POSICION_X;
-unsigned int POSICION_Y;
-
 #endif /* KERNEL_H */

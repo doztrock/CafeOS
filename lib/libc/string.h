@@ -16,6 +16,7 @@
 void *memcpy(void *destino, const void *origen, size_t n);
 void *memset(void *cadena, int caracter, size_t n);
 int memcmp(const void *cadena1, const void *cadena2, size_t n);
+
 char *strcat(char *destino, char *origen);
 char *strcpy(char *destino, const char *origen);
 int strcmp(const char *cadena1, const char *cadena2);

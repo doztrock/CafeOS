@@ -12,15 +12,15 @@
 #define STDLIB_H
 
 /**
- * Estados de salida
+ * Definiciones
  */
 
-/* Ejecucion Exitosa */
+/* Definicion: EXIT_SUCCESS */
 #ifndef EXIT_SUCCESS
 #define EXIT_SUCCESS    0
 #endif
 
-/* Ejecucion Fallida */
+/* Definicion: EXIT_FAILURE */
 #ifndef EXIT_FAILURE
 #define EXIT_FAILURE    1
 #endif

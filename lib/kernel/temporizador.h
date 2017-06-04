@@ -1,3 +1,13 @@
+/**
+ * Nombre:    TEMPORIZADOR.H
+ * 
+ * Contenido: Funciones y Constantes usadas para el manejo del Timer (Temporizador).
+ * 
+ * Nota:      La medida del reloj, se realiza a traves de un elemento conocido como "tick",
+ *            es decir, los ciclos que ocurren en el temporizador.
+ * 
+ */
+
 #ifndef TEMPORIZADOR_H
 #define TEMPORIZADOR_H
 
@@ -8,8 +18,9 @@
 #include "stdio.h"
 #include "stdbool.h"
 
-#define HERTZ_TEMPORIZADOR  50
-#define TICKS_POR_SEGUNDO   100
+#define HERTZ_TEMPORIZADOR      50
+#define TICKS_POR_SEGUNDO       100
+#define FRECUENCIA_TEMPORIZADOR 1193180
 
 
 /**
