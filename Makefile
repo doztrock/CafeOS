@@ -1,6 +1,6 @@
 # Compilador C
 CC=gcc
-CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
+CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra
 CLIBS=-I ./ -I lib/ -I lib/kernel/ -I lib/libc/
 
 # Compilador Assembler

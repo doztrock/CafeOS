@@ -1,6 +1,6 @@
 # Compilador C
 CC=gcc
-CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -c
+CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra
 CLIBS=-I ./ -I ../ -I ../libc/
 
 # Librerias Kernel
@@ -24,4 +24,4 @@ clean:
 
 # Regla: Archivos .c
 %.o: %.c
-	$(CC) $(CFLAGS) $(CLIBS) $< -o $@
+	$(CC) $(CFLAGS) $(CLIBS) -c $< -o $@
