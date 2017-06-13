@@ -19,7 +19,7 @@
 #include "stdbool.h"
 
 #define HERTZ_TEMPORIZADOR      50
-#define TICKS_POR_SEGUNDO       100
+#define TICKS_POR_SEGUNDO       50
 #define FRECUENCIA_TEMPORIZADOR 1193180
 
 

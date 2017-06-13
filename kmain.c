@@ -20,6 +20,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "stdbool.h"
+#include "unistd.h"
 
 int kmain(void) {
 
@@ -43,7 +44,7 @@ int kmain(void) {
     setForegroundColor(colorDefecto);
     setBackgroundColor(CAFE);
 
-    printf("Bienvenido a cafeOS!\n");
+    printf("Bienvenido a cafeOS!\n\n");
 
 
     /**
@@ -129,9 +130,33 @@ int kmain(void) {
     /* Iniciamos la interrupciones */
     asm volatile("sti");
 
-    printf("Esperando 1 segundo...");
-    esperarTemporizador(TICKS_POR_SEGUNDO);
+
+    /**
+     * A partir de este punto se toma por iniciado el SO
+     * 
+     * Por lo tanto se realizaran verificaciones de algunos de los dispositivos.
+     * E incluso la inicializacion de los que falten.
+     * 
+     */
+
+    /**
+     * Prueba:      Temporizador
+     * 
+     * Objetivo:    Determinar si el temporizador (timer) funciona.
+     * Metodo:      Detener el temporizador por 1 segundo.
+     */
+
+    /* Prueba de temporizador */
+    printf("\nPrueba de temporizador:");
+    printf("\nEsperando 1 segundo...");
+
+    sleep(1);
+
+    setForegroundColor(VERDE);
     printf("OK\n");
+
+    setForegroundColor(colorDefecto);
+
 
     /* Dejamos un bucle infinito */
     for (;;);

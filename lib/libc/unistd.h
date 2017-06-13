@@ -11,4 +11,8 @@
 #ifndef UNISTD_H
 #define UNISTD_H
 
+#include "kernel/temporizador.h"
+
+unsigned int sleep(unsigned int segundos);
+
 #endif /* UNISTD_H */
