@@ -15,12 +15,16 @@ INCLUSIONES=lib/kernel/*.o		\
 	    lib/kernel/*/*.o		\
 	    lib/libc/*.o
 
+# Dispositivos
+DISPOSITIVOS=dispositivos/serial.o
+
+
 # Regla: all
 all: kernel.elf
 
 # Regla: kernel.elf
-kernel.elf: $(DEPENDENCIAS) libkernel libc
-	$(CC) $(CFLAGS) -o kernel.elf -T link.ld $(DEPENDENCIAS) $(INCLUSIONES)
+kernel.elf: $(DEPENDENCIAS) $(DISPOSITIVOS)  libkernel libc
+	$(CC) $(CFLAGS) -o kernel.elf -T link.ld $(DEPENDENCIAS) $(INCLUSIONES) $(DISPOSITIVOS)
 
 # Regla: libkernel
 libkernel:
