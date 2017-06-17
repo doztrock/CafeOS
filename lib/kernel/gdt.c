@@ -9,7 +9,7 @@
  */
 bool instalarGDT(void) {
 
-    GDTP.limit = (sizeof (struct GDT_Entrada) * 3) - 1;
+    GDTP.limite = (sizeof (struct GDT_Entrada) * 3) - 1;
     GDTP.base = (uint32_t) & GDT;
 
     setEntradaGDT(0, NULL, NULL, NULL, NULL); /* Entrada NULL */
@@ -54,23 +54,23 @@ void limpiarGDT(void) {
  * 
  * @param indice        Indice de la entrada a agregar
  * @param base          Parametro base de la entrada
- * @param limite        Parametro limit de la entrada
- * @param acceso        Parametro access de la entrada
- * @param granularidad  Parametro granularity de la entrada
- * @param limite        Parametro limit de la entrada
+ * @param limite        Parametro limite de la entrada
+ * @param acceso        Parametro acceso de la entrada
+ * @param granularidad  Parametro granularidad de la entrada
+ * @param limite        Parametro limite de la entrada
  * @return              No tiene ningun valor de retorno.
  */
 void setEntradaGDT(int indice, uint32_t base, uint32_t limite, uint8_t acceso, uint8_t granularidad) {
 
-    GDT[indice].base_low = (base & 0xFFFF);
-    GDT[indice].base_middle = (base >> 16) & 0xFF;
-    GDT[indice].base_high = (base >> 24) & 0xFF;
+    GDT[indice].base_baja = (base & 0xFFFF);
+    GDT[indice].base_media = (base >> 16) & 0xFF;
+    GDT[indice].base_alta = (base >> 24) & 0xFF;
 
-    GDT[indice].limit_low = (limite & 0xFFFF);
-    GDT[indice].granularity = (limite >> 16) & 0x0F;
+    GDT[indice].limite_bajo = (limite & 0xFFFF);
+    GDT[indice].granularidad = (limite >> 16) & 0x0F;
 
-    GDT[indice].granularity |= (granularidad & 0xF0);
-    GDT[indice].access = acceso;
+    GDT[indice].granularidad |= (granularidad & 0xF0);
+    GDT[indice].acceso = acceso;
 
     return;
 }
