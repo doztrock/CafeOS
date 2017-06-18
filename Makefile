@@ -1,10 +1,10 @@
 # Compilador C
-CC=gcc
+CC=i686-elf-gcc
 CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra
 CLIBS=-I ./ -I lib/ -I lib/kernel/ -I lib/libc/
 
 # Compilador Assembler
-AS=as
+AS=i686-elf-as
 ASFLAGS=-c
 
 # Dependencias
