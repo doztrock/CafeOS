@@ -9,7 +9,7 @@
  */
 bool instalarIDT(void) {
 
-    IDTP.limit = (sizeof (struct IDT_Entrada) * 256) - 1;
+    IDTP.limite = (sizeof (struct IDT_Entrada) * 256) - 1;
     IDTP.base = (uint32_t) & IDT;
 
     memset(&IDT, 0, sizeof (struct IDT_Entrada) * 256);
@@ -82,18 +82,13 @@ void limpiarIDT(void) {
  */
 void setEntradaIDT(int indice, uint32_t base, uint16_t segmento, uint8_t banderas) {
 
-    IDT[indice].base_low = (base & 0xFFFF);
+    IDT[indice].base_baja = (base & 0xFFFF);
+    IDT[indice].base_alta = (base >> 16) & 0xFFFF;
 
-    IDT[indice].base_high = (base >> 16) & 0xFFFF;
+    IDT[indice].segmento = segmento;
+    IDT[indice].cero = 0;
 
-
-    IDT[indice].sel = segmento;
-
-    IDT[indice].always0 = 0;
-
-
-    IDT[indice].flags = banderas;
-
+    IDT[indice].banderas = banderas;
 
     return;
 }
