@@ -18,18 +18,23 @@
  * Entrada IDT
  */
 struct IDT_Entrada {
-    uint16_t segmento;
-    uint8_t cero;
-    uint8_t banderas;
-    uint16_t base_baja;
-    uint16_t base_alta;
+    uint16_t base_low;
+
+    uint16_t sel;
+
+    uint8_t always0;
+
+    uint8_t flags;
+
+    uint16_t base_high;
+
 } __attribute__ ((packed));
 
 /**
  * Puntero IDT
  */
 struct IDT_Puntero {
-    uint16_t limite;
+    uint16_t limit;
     uint32_t base;
 } __attribute__ ((packed));
 

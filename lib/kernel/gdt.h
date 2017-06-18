@@ -16,19 +16,19 @@
  * Entrada GDT
  */
 struct GDT_Entrada {
-    uint8_t acceso;
-    uint8_t granularidad;
-    uint16_t limite_bajo;
-    uint16_t base_baja;
-    uint8_t base_media;
-    uint8_t base_alta;
+    uint16_t limit_low;
+    uint16_t base_low;
+    uint8_t base_middle;
+    uint8_t access;
+    uint8_t granularity;
+    uint8_t base_high;
 } __attribute__ ((packed));
 
 /**
  * Puntero GDT
  */
 struct GDT_Puntero {
-    uint16_t limite;
+    uint16_t limit;
     uint32_t base;
 } __attribute__ ((packed));
 
