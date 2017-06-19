@@ -64,6 +64,10 @@ int putchar(int caracter) {
 
     if (POSICION_Y >= 25) {
 
+        /* Almacenamos la primera fila */
+        struct FilaPantalla primeraFila = obtenerPrimeraFila();
+        almacenarFilaBufferDesplazamiento(primeraFila, SUPERIOR);
+
         int i;
 
         for (i = 0; i < 80 * 24; i++) {
@@ -72,6 +76,10 @@ int putchar(int caracter) {
 
         for (i = 80 * 24; i < 80 * 25; i++) {
             video[i] = caracterEspacio;
+        }
+
+        if (INDICE_BUFFER_DESPLAZAMIENTO_SUPERIOR == 5) {
+            desplazarPantalla(1, SUPERIOR);
         }
 
         POSICION_Y = 24;

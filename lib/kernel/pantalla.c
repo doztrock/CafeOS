@@ -9,6 +9,8 @@
  *           Inicializar los colores de los lados de la pantalla, es decir, el color de fondo
  *                y el color del primer plano.        
  * 
+ *           PENDIENTE
+ * 
  * @return   No tiene ningun valor de retorno.
  */
 void iniciarPantalla(void) {
@@ -20,6 +22,10 @@ void iniciarPantalla(void) {
     /* Colores de los lados */
     setBackgroundColor(NEGRO);
     setForegroundColor(BLANCO);
+
+    /* Indice de buffer de desplazamiento */
+    INDICE_BUFFER_DESPLAZAMIENTO_SUPERIOR = 0;
+    INDICE_BUFFER_DESPLAZAMIENTO_INFERIOR = 0;
 
     return;
 }
@@ -154,6 +160,69 @@ void actualizarCursor(void) {
     outb(0x3D5, posicionCursor >> 8);
     outb(0x3D4, 15);
     outb(0x3D5, posicionCursor);
+
+    return;
+}
+
+struct FilaPantalla obtenerPrimeraFila(void) {
+
+    /* Puntero a la direccion del video */
+    uint16_t *video = (uint16_t *) DIRECCION_VIDEO;
+
+    /* Primera linea en la pantalla */
+    struct FilaPantalla linea;
+
+    /* Indice */
+    int i;
+
+    /* Recorremos solo la primera fila, obteniendo los primeros 80 caracteres. */
+    for (i = 0; i < 80; i++) {
+        linea.celda[i].caracter = video[i];
+    }
+
+    return linea;
+}
+
+void almacenarFilaBufferDesplazamiento(struct FilaPantalla fila, TipoDesplazamientoPantalla tipoDesplazamiento) {
+
+    if (tipoDesplazamiento == SUPERIOR) {
+
+        BUFFER_DESPLAZAMIENTO_SUPERIOR[INDICE_BUFFER_DESPLAZAMIENTO_SUPERIOR] = fila;
+        INDICE_BUFFER_DESPLAZAMIENTO_SUPERIOR++;
+
+    } else if (tipoDesplazamiento == INFERIOR) {
+
+        BUFFER_DESPLAZAMIENTO_INFERIOR[INDICE_BUFFER_DESPLAZAMIENTO_INFERIOR] = fila;
+        INDICE_BUFFER_DESPLAZAMIENTO_INFERIOR++;
+
+    }
+
+    return;
+}
+
+void desplazarPantalla(uint32_t n, TipoDesplazamientoPantalla tipoDesplazamiento) {
+
+    /* Puntero a la direccion del video */
+    uint16_t *video = (uint16_t *) DIRECCION_VIDEO;
+
+    /* Fila */
+    struct FilaPantalla fila = BUFFER_DESPLAZAMIENTO_SUPERIOR[INDICE_BUFFER_DESPLAZAMIENTO_SUPERIOR - 1];
+
+    /* Indice */
+    int i;
+    
+    uint8_t byteAtributo = (backgroundColor << 4) | (foregroundColor & 0x0F);
+    uint16_t atributo = byteAtributo << 8;
+
+    /* Movemos todo lo actual para abajo */
+    for (i = 0; i < 80; i++) {
+        video[i] = fila.celda[i].caracter | atributo;
+    }
+
+    /* Movemos todo lo actual para abajo */
+    for (i = (80 - 1); i < 80 * 24; i++) {
+        video[i] = video[i + 80];
+    }
 
     return;
 }
