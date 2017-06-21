@@ -30,7 +30,7 @@ int kmain(void) {
     /**
      * Color por defecto para el texto.
      */
-    Color colorDefecto = NEGRO;
+    Color colorDefecto = BLANCO;
 
 
     /**
@@ -39,12 +39,32 @@ int kmain(void) {
     iniciarPantalla();
     limpiarPantalla();
 
-    pintarPantalla(CAFE);
+    pintarPantalla(NEGRO);
 
     setForegroundColor(colorDefecto);
-    setBackgroundColor(CAFE);
+    setBackgroundColor(NEGRO);
 
-    printf("Bienvenido a cafeOS!\n\n");
+
+    /**
+     * Mensaje de bienvenida
+     * 
+     * Bienvenido a cafeOS!
+     * 
+     */
+    printf("Bienvenido a ");
+
+    setForegroundColor(AMARILLO);
+    putchar('c');
+    putchar('a');
+
+    setForegroundColor(AZUL);
+    putchar('f');
+
+    setForegroundColor(ROJO);
+    putchar('e');
+
+    setForegroundColor(colorDefecto);
+    printf("OS!\n\n");
 
 
     /**

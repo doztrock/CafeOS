@@ -51,6 +51,10 @@ iso: kernel.elf
 run:
 	qemu-system-i386 -cdrom cafeOS.iso
 
+# Regla: test
+test: kernel.elf
+	qemu-system-i386 -kernel kernel.elf
+
 # Regla: clean
 clean:
 	rm -f kernel.elf cafeOS.iso
