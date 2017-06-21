@@ -224,5 +224,7 @@ void desplazarPantalla(uint32_t n, TipoDesplazamientoPantalla tipoDesplazamiento
         video[i] = video[i + 80];
     }
 
+    SIN_USAR(n);
+    SIN_USAR(tipoDesplazamiento);
     return;
 }

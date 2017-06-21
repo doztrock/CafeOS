@@ -30,5 +30,10 @@
  */
 #define DIRECCION_TECLADO   0x60
 
+/**
+ * Macro manejador de variables que no seran usadas
+ */
+#define SIN_USAR(variable)  (void)(variable)
+
 
 #endif /* KERNEL_H */

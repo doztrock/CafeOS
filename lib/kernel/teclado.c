@@ -44,6 +44,7 @@ void manejadorTeclado(struct ISR_Informacion *informacion) {
         INDICE_BUFFER_TECLADO++;
     }
 
+    SIN_USAR(informacion);
     return;
 }
 

@@ -63,6 +63,9 @@ void esperarTemporizador(int ticks) {
  * @return            No tiene ningun valor de retorno.
  */
 void manejadorTemporizador(struct ISR_Informacion *informacion) {
+    
     TICKS_TEMPORIZADOR++;
+    
+    SIN_USAR(informacion);
     return;
 }
