@@ -9,8 +9,8 @@
 #include "stdbool.h"
 #include "stddef.h"
 
-#define INDEX_FROM_BIT(a)   (a / (8 * 4))
-#define OFFSET_FROM_BIT(a)  (a % (8 * 4))
+#define INDICE_DESDE_BIT(a)             (a / (8 * 4))
+#define DESPLAZAMIENTO_DESDE_BIT(a)     (a % (8 * 4))
 
 /**
  * Pagina de memoria
@@ -69,13 +69,16 @@ struct PaginaMemoria *obtenerPaginaMemoria(uint32_t direccion, bool construir, s
 /**
  * Funciones: Asignacion
  */
-uint32_t kmalloc(uint32_t sz);
-uint32_t kmalloc_a(uint32_t sz);
-uint32_t kmalloc_ap(uint32_t sz, uint32_t *phys);
-void set_frame(uint32_t frame_addr);
-void clear_frame(uint32_t frame_addr);
-uint32_t first_frame();
+uint32_t kmalloc(uint32_t bytes);
+uint32_t kmalloc_a(uint32_t bytes);
+uint32_t kmalloc_ap(uint32_t bytes, uint32_t *phys);
+
+void set_frame(uint32_t direccion);
 void alloc_frame(struct PaginaMemoria *page, int32_t is_kernel, int32_t is_writeable);
+
+uint32_t first_frame();
+
+void clear_frame(uint32_t direccion);
 void free_frame(struct PaginaMemoria *page);
 
 #endif /* MEMORIA_H */

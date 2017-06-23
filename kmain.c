@@ -119,7 +119,7 @@ int kmain(void) {
     /**
      * Paginacion
      */
-    printf("Iniciando Paginacion de Memoria...");
+    printf("Instalando Paginacion...");
 
     if (iniciarPaginacionMemoria()) {
         setForegroundColor(VERDE);
@@ -195,9 +195,6 @@ int kmain(void) {
     setForegroundColor(colorDefecto);
 
     
-    uint32_t *ptr = (uint32_t*)0xA0000000;
-    uint32_t do_page_fault = *ptr;
-
     /* Dejamos un bucle infinito */
     for (;;);
 
