@@ -9,8 +9,8 @@
 #include "stdbool.h"
 #include "stddef.h"
 
-#define INDEX_FROM_BIT  (a) (a / (8 * 4))
-#define OFFSET_FROM_BIT (a) (a % (8 * 4))
+#define INDEX_FROM_BIT(a)   (a / (8 * 4))
+#define OFFSET_FROM_BIT(a)  (a % (8 * 4))
 
 /**
  * Pagina de memoria
@@ -65,7 +65,6 @@ struct DirectorioMemoria *directorioMemoriaActual;
 bool iniciarPaginacionMemoria(void);
 void cambiarDirectorioMemoria(struct DirectorioMemoria *directorio);
 struct PaginaMemoria *obtenerPaginaMemoria(uint32_t direccion, bool construir, struct DirectorioMemoria *directorio);
-void fallaPaginacionMemoria(struct ISR_Informacion *informacion);
 
 /**
  * Funciones: Asignacion
@@ -73,10 +72,9 @@ void fallaPaginacionMemoria(struct ISR_Informacion *informacion);
 uint32_t kmalloc(uint32_t sz);
 uint32_t kmalloc_a(uint32_t sz);
 uint32_t kmalloc_ap(uint32_t sz, uint32_t *phys);
-static void set_frame(uint32_t frame_addr);
-static void clear_frame(uint32_t frame_addr);
-static uint32_t test_frame(uint32_t frame_addr);
-static uint32_t first_frame();
+void set_frame(uint32_t frame_addr);
+void clear_frame(uint32_t frame_addr);
+uint32_t first_frame();
 void alloc_frame(struct PaginaMemoria *page, int32_t is_kernel, int32_t is_writeable);
 void free_frame(struct PaginaMemoria *page);
 

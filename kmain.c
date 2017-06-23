@@ -14,6 +14,7 @@
 #include "lib/kernel/gdt.h"
 #include "lib/kernel/idt.h"
 #include "lib/kernel/irq.h"
+#include "lib/kernel/memoria.h"
 #include "lib/kernel/temporizador.h"
 #include "lib/kernel/teclado.h"
 
@@ -116,6 +117,22 @@ int kmain(void) {
 
 
     /**
+     * Paginacion
+     */
+    printf("Iniciando Paginacion de Memoria...");
+
+    if (iniciarPaginacionMemoria()) {
+        setForegroundColor(VERDE);
+        printf("OK\n");
+    } else {
+        setForegroundColor(ROJO);
+        printf("ERROR\n");
+    }
+
+    setForegroundColor(colorDefecto);
+
+
+    /**
      * Temporizador
      */
     printf("Instalando Temporizador...");
@@ -177,6 +194,9 @@ int kmain(void) {
 
     setForegroundColor(colorDefecto);
 
+    
+    uint32_t *ptr = (uint32_t*)0xA0000000;
+    uint32_t do_page_fault = *ptr;
 
     /* Dejamos un bucle infinito */
     for (;;);

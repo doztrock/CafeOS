@@ -20,15 +20,13 @@ bool iniciarPaginacionMemoria(void) {
 
     uint32_t i = 0;
     while (i < ubicacionPaginacion) {
-        alloc_frame(get_page(i, 1, directorioMemoriaKernel), 0, 0);
+        alloc_frame(obtenerPaginaMemoria(i, 1, directorioMemoriaKernel), 0, 0);
         i += 0x1000;
     }
 
     cambiarDirectorioMemoria(directorioMemoriaKernel);
 
-    instalarManejadorIRQ(14, fallaPaginacionMemoria);
-
-    return;
+    return true;
 }
 
 void cambiarDirectorioMemoria(struct DirectorioMemoria *directorio) {
@@ -59,7 +57,7 @@ struct PaginaMemoria *obtenerPaginaMemoria(uint32_t direccion, bool construir, s
         return &directorio->tablas[tablaIDX]->paginas[direccion % 1024];
     } else if (construir) {
 
-        directorio->tablas[tablaIDX] = (struct DirectorioMemoria *) kmalloc_ap(sizeof (struct DirectorioMemoria *), &temporal);
+        directorio->tablas[tablaIDX] = (struct TablaMemoria *) kmalloc_ap(sizeof (struct TablaMemoria *), &temporal);
         memset(directorio->tablas[tablaIDX], 0, 0x1000);
 
         directorio->tablaFisica[tablaIDX] = temporal | 0x7;
@@ -68,20 +66,6 @@ struct PaginaMemoria *obtenerPaginaMemoria(uint32_t direccion, bool construir, s
     }
 
     return NULL;
-}
-
-void fallaPaginacionMemoria(struct ISR_Informacion *informacion) {
-
-    uint32_t direccionFalla;
-
-    asm volatile("mov %%cr2, %0" : "=r" (direccionFalla));
-    asm volatile ("cli");
-
-    mostrarMensajePanico("Falla en paginacion");
-
-    for (;;);
-
-    return;
 }
 
 uint32_t kmalloc(uint32_t sz) {
@@ -93,56 +77,50 @@ uint32_t kmalloc(uint32_t sz) {
 }
 
 uint32_t kmalloc_a(uint32_t sz) {
-    if (placement_address & 0xFFFFF000) {
-        placement_address &= 0xFFFFF000;
-        placement_address += 0x1000;
+
+    if (ubicacionPaginacion & 0xFFFFF000) {
+        ubicacionPaginacion &= 0xFFFFF000;
+        ubicacionPaginacion += 0x1000;
     }
-    uint32_t tmp = placement_address;
-    placement_address += sz;
+    uint32_t tmp = ubicacionPaginacion;
+    ubicacionPaginacion += sz;
     return tmp;
 }
 
 uint32_t kmalloc_ap(uint32_t sz, uint32_t *phys) {
-    if (placement_address & 0xFFFFF000) {
-        placement_address &= 0xFFFFF000;
-        placement_address += 0x1000;
+    if (ubicacionPaginacion & 0xFFFFF000) {
+        ubicacionPaginacion &= 0xFFFFF000;
+        ubicacionPaginacion += 0x1000;
     }
     if (phys) {
-        *phys = placement_address;
+        *phys = ubicacionPaginacion;
     }
-    uint32_t tmp = placement_address;
-    placement_address += sz;
+    uint32_t tmp = ubicacionPaginacion;
+    ubicacionPaginacion += sz;
     return tmp;
 }
 
-static void set_frame(uint32_t frame_addr) {
+void set_frame(uint32_t frame_addr) {
     uint32_t frame = frame_addr / 0x1000;
     uint32_t idx = INDEX_FROM_BIT(frame);
     uint32_t off = OFFSET_FROM_BIT(frame);
-    frames[idx] |= (0x1 << off);
+    marcos[idx] |= (0x1 << off);
 }
 
-static void clear_frame(uint32_t frame_addr) {
+void clear_frame(uint32_t frame_addr) {
     uint32_t frame = frame_addr / 0x1000;
     uint32_t idx = INDEX_FROM_BIT(frame);
     uint32_t off = OFFSET_FROM_BIT(frame);
-    frames[idx] &= ~(0x1 << off);
+    marcos[idx] &= ~(0x1 << off);
 }
 
-static uint32_t test_frame(uint32_t frame_addr) {
-    uint32_t frame = frame_addr / 0x1000;
-    uint32_t idx = INDEX_FROM_BIT(frame);
-    uint32_t off = OFFSET_FROM_BIT(frame);
-    return (frames[idx] & (0x1 << off));
-}
-
-static uint32_t first_frame() {
+uint32_t first_frame() {
     uint32_t i, j;
-    for (i = 0; i < INDEX_FROM_BIT(nframes); i++) {
-        if (frames[i] != 0xFFFFFFFF) {
+    for (i = 0; i < INDEX_FROM_BIT(cantidadMarcos); i++) {
+        if (marcos[i] != 0xFFFFFFFF) {
             for (j = 0; j < 32; j++) {
                 uint32_t toTest = 0x1 << j;
-                if (!(frames[i] & toTest)) {
+                if (!(marcos[i] & toTest)) {
                     return i * 4 * 8 + j;
                 }
             }
