@@ -66,4 +66,10 @@ typedef unsigned long long uint64_t;
 typedef long long int64_t;
 #endif
 
+/* Definicion: uintptr_t */
+#ifndef __UINTPTR_T_
+#define __UINTPTR_T_
+typedef unsigned long uintptr_t;
+#endif
+
 #endif /* STDINT_H */

@@ -1,107 +1,94 @@
 #include "memoria.h"
 
+/**
+ * Posicion de memoria respectiva a la seccion "end" definida en link.ld
+ */
+uintptr_t ubicacionPaginacion = (uintptr_t) & end;
 
-uint32_t placement_address = (uint32_t) & end;
+bool iniciarPaginacionMemoria(void) {
 
+    uint32_t paginaMemoriaFinal = 0x1000000;
 
+    cantidadMarcos = paginaMemoriaFinal / 0x1000;
+    marcos = (uint32_t *) kmalloc(INDEX_FROM_BIT(cantidadMarcos));
+    memset(marcos, 0, INDEX_FROM_BIT(cantidadMarcos));
 
+    directorioMemoriaKernel = (struct DirectorioMemoria *) kmalloc_a(sizeof (struct DirectorioMemoria));
+    memset(directorioMemoriaKernel, 0, sizeof (struct DirectorioMemoria));
 
-
-
-void init_paging() {
-    uint32_t mem_end_page = 0x1000000;
-
-    nframes = mem_end_page / 0x1000;
-    frames = (uint32_t*) kmalloc(INDEX_FROM_BIT(nframes));
-    memset(frames, 0, INDEX_FROM_BIT(nframes));
-
-    kernel_directory = (page_directory_t*) kmalloc_a(sizeof (page_directory_t));
-    memset(kernel_directory, 0, sizeof (page_directory_t));
-    current_directory = kernel_directory;
+    directorioMemoriaActual = directorioMemoriaKernel;
 
     uint32_t i = 0;
-    while (i < placement_address) {
-        alloc_frame(get_page(i, 1, kernel_directory), 0, 0);
+    while (i < ubicacionPaginacion) {
+        alloc_frame(get_page(i, 1, directorioMemoriaKernel), 0, 0);
         i += 0x1000;
     }
-    //isr_install_handler(14, page_fault);
 
-    switch_page_directory(kernel_directory);
+    cambiarDirectorioMemoria(directorioMemoriaKernel);
 
-    SIN_USAR(test_frame);
+    instalarManejadorIRQ(14, fallaPaginacionMemoria);
+
+    return;
 }
 
-void switch_page_directory(page_directory_t *dir) {
-    current_directory = dir;
-    asm volatile("mov %0, %%cr3"::"r"(&dir->tablesPhysical));
+void cambiarDirectorioMemoria(struct DirectorioMemoria *directorio) {
+
     uint32_t cr0;
+
+    directorioMemoriaActual = directorio;
+
+    asm volatile("mov %0, %%cr3"::"r"(&directorio->tablaFisica));
     asm volatile("mov %%cr0, %0" : "=r"(cr0));
-    cr0 |= 0x80000000; // Enable paging!
+
+    cr0 |= 0x80000000;
+
     asm volatile("mov %0, %%cr0"::"r"(cr0));
+
+    return;
 }
 
-page_t *get_page(uint32_t address, int32_t make, page_directory_t *dir) {
-    address /= 0x1000;
-    uint32_t table_idx = address / 1024;
-    if (dir->tables[table_idx]) {
-        return &dir->tables[table_idx]->pages[address % 1024];
-    } else if (make) {
-        uint32_t tmp;
-        dir->tables[table_idx] = (page_table_t*) kmalloc_ap(sizeof (page_table_t), &tmp);
-        memset(dir->tables[table_idx], 0, 0x1000);
-        dir->tablesPhysical[table_idx] = tmp | 0x7;
-        return &dir->tables[table_idx]->pages[address % 1024];
-    } else {
-        return 0;
+struct PaginaMemoria *obtenerPaginaMemoria(uint32_t direccion, bool construir, struct DirectorioMemoria *directorio) {
+
+    uint32_t tablaIDX;
+    uint32_t temporal;
+
+    direccion /= 0x1000;
+    tablaIDX = direccion / 1024;
+
+    if (directorio->tablas[tablaIDX]) {
+        return &directorio->tablas[tablaIDX]->paginas[direccion % 1024];
+    } else if (construir) {
+
+        directorio->tablas[tablaIDX] = (struct DirectorioMemoria *) kmalloc_ap(sizeof (struct DirectorioMemoria *), &temporal);
+        memset(directorio->tablas[tablaIDX], 0, 0x1000);
+
+        directorio->tablaFisica[tablaIDX] = temporal | 0x7;
+
+        return &directorio->tablas[tablaIDX]->paginas[direccion % 1024];
     }
+
+    return NULL;
 }
 
-void page_fault(struct ISR_Informacion *regs) {
-    uint32_t faulting_address;
-    asm volatile("mov %%cr2, %0" : "=r" (faulting_address));
+void fallaPaginacionMemoria(struct ISR_Informacion *informacion) {
 
-/*
-    int32_t present = !(regs->err_code & 0x1);
-    int32_t rw = regs->err_code & 0x2;
-    int32_t us = regs->err_code & 0x4;
-    int32_t reserved = regs->err_code & 0x8;
-*/
+    uint32_t direccionFalla;
 
-/*
-    terminal_writestring("Page fault! ( ");
-    if (present) {
-        terminal_writestring("present ");
-    }
-    if (rw) {
-        terminal_writestring("read-only ");
-    }
-    if (us) {
-        terminal_writestring("user-mode ");
-    }
-    if (reserved) {
-        terminal_writestring("reserved ");
-    }
-    terminal_writestring(") at 0x");
-    terminal_writehex(faulting_address);
-    terminal_writestring("\n");
-*/
-
+    asm volatile("mov %%cr2, %0" : "=r" (direccionFalla));
     asm volatile ("cli");
+
+    mostrarMensajePanico("Falla en paginacion");
+
     for (;;);
+
+    return;
 }
-
-
-
-
-
-
-
-
-
 
 uint32_t kmalloc(uint32_t sz) {
-    uint32_t tmp = placement_address;
-    placement_address += sz;
+
+    uint32_t tmp = ubicacionPaginacion;
+    ubicacionPaginacion += sz;
+
     return tmp;
 }
 
@@ -164,7 +151,7 @@ static uint32_t first_frame() {
     return 0;
 }
 
-void alloc_frame(page_t *page, int32_t is_kernel, int32_t is_writeable) {
+void alloc_frame(struct PaginaMemoria *page, int32_t is_kernel, int32_t is_writeable) {
     if (page->frame != 0) {
         return;
     } else {
@@ -181,7 +168,7 @@ void alloc_frame(page_t *page, int32_t is_kernel, int32_t is_writeable) {
     }
 }
 
-void free_frame(page_t *page) {
+void free_frame(struct PaginaMemoria *page) {
     uint32_t frame;
     if (!(frame = page->frame)) {
         return;
@@ -190,4 +177,5 @@ void free_frame(page_t *page) {
         page->frame = 0x0;
     }
 }
+
 

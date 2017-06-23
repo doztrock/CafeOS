@@ -2,22 +2,15 @@
 #define MEMORIA_H
 
 #include "isr.h"
+#include "irq.h"
+#include "panico/panico.h"
 
 #include "stdint.h"
+#include "stdbool.h"
+#include "stddef.h"
 
 #define INDEX_FROM_BIT  (a) (a / (8 * 4))
 #define OFFSET_FROM_BIT (a) (a % (8 * 4))
-
-/**
- * Marco de memoria
- */
-uint32_t *marcos;
-uint32_t cantidadMarcos;
-
-/**
- * Seccion "end" definida en el archivo link.ld
- */
-extern uint32_t end;
 
 /**
  * Pagina de memoria
@@ -48,17 +41,31 @@ struct DirectorioMemoria {
     uint32_t direccionFisica;
 };
 
-page_directory_t * kernel_directory;
-page_directory_t * current_directory;
+/**
+ * Marco de memoria
+ */
+uint32_t *marcos;
+uint32_t cantidadMarcos;
+
+/**
+ * Seccion "end" definida en el archivo link.ld
+ */
+extern uint32_t end;
+
+/**
+ * Directorios de memoria
+ */
+struct DirectorioMemoria *directorioMemoriaKernel;
+struct DirectorioMemoria *directorioMemoriaActual;
 
 
 /**
  * Funciones: Paginacion
  */
-void init_paging();
-void switch_page_directory(page_directory_t * new);
-page_t *get_page(uint32_t address, int32_t make, page_directory_t *dir);
-void page_fault(struct ISR_Informacion *regs);
+bool iniciarPaginacionMemoria(void);
+void cambiarDirectorioMemoria(struct DirectorioMemoria *directorio);
+struct PaginaMemoria *obtenerPaginaMemoria(uint32_t direccion, bool construir, struct DirectorioMemoria *directorio);
+void fallaPaginacionMemoria(struct ISR_Informacion *informacion);
 
 /**
  * Funciones: Asignacion
@@ -70,7 +77,7 @@ static void set_frame(uint32_t frame_addr);
 static void clear_frame(uint32_t frame_addr);
 static uint32_t test_frame(uint32_t frame_addr);
 static uint32_t first_frame();
-void alloc_frame(page_t *page, int32_t is_kernel, int32_t is_writeable);
-void free_frame(page_t *page);
+void alloc_frame(struct PaginaMemoria *page, int32_t is_kernel, int32_t is_writeable);
+void free_frame(struct PaginaMemoria *page);
 
 #endif /* MEMORIA_H */
