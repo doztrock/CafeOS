@@ -9,6 +9,7 @@ KERNEL=io.o			    \
        idt.o			    \
        isr.o			    \
        irq.o			    \
+       memoria.o		    \
        panico/panico.o		    \
        pantalla.o		    \
        teclado.o		    \

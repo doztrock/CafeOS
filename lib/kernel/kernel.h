@@ -32,6 +32,7 @@
 
 /**
  * Macro manejador de variables que no seran usadas
+ * PENDIENTE MOVER
  */
 #define SIN_USAR(variable)  (void)(variable)
 
