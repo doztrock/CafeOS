@@ -10,8 +10,8 @@ bool iniciarPaginacionMemoria(void) {
     uint32_t paginaMemoriaFinal = 0x1000000;
 
     cantidadMarcos = paginaMemoriaFinal / 0x1000;
-    marcos = (uint32_t *) kmalloc(INDEX_FROM_BIT(cantidadMarcos));
-    memset(marcos, 0, INDEX_FROM_BIT(cantidadMarcos));
+    marcos = (uint32_t *) kmalloc(INDICE_DESDE_BIT(cantidadMarcos));
+    memset(marcos, 0, INDICE_DESDE_BIT(cantidadMarcos));
 
     directorioMemoriaKernel = (struct DirectorioMemoria *) kmalloc_a(sizeof (struct DirectorioMemoria));
     memset(directorioMemoriaKernel, 0, sizeof (struct DirectorioMemoria));
@@ -20,7 +20,7 @@ bool iniciarPaginacionMemoria(void) {
 
     uint32_t i = 0;
     while (i < ubicacionPaginacion) {
-        alloc_frame(obtenerPaginaMemoria(i, 1, directorioMemoriaKernel), 0, 0);
+        asignarMarco(obtenerPaginaMemoria(i, 1, directorioMemoriaKernel), 0, 0);
         i += 0x1000;
     }
 
@@ -68,92 +68,132 @@ struct PaginaMemoria *obtenerPaginaMemoria(uint32_t direccion, bool construir, s
     return NULL;
 }
 
-uint32_t kmalloc(uint32_t sz) {
+uint32_t kmalloc(uint32_t bytes) {
 
-    uint32_t tmp = ubicacionPaginacion;
-    ubicacionPaginacion += sz;
+    uint32_t temporal;
 
-    return tmp;
+    temporal = ubicacionPaginacion;
+    ubicacionPaginacion += bytes;
+
+    return temporal;
 }
 
-uint32_t kmalloc_a(uint32_t sz) {
+uint32_t kmalloc_a(uint32_t bytes) {
+
+    uint32_t temporal;
 
     if (ubicacionPaginacion & 0xFFFFF000) {
         ubicacionPaginacion &= 0xFFFFF000;
         ubicacionPaginacion += 0x1000;
     }
-    uint32_t tmp = ubicacionPaginacion;
-    ubicacionPaginacion += sz;
-    return tmp;
+
+    temporal = ubicacionPaginacion;
+    ubicacionPaginacion += bytes;
+
+    return temporal;
 }
 
-uint32_t kmalloc_ap(uint32_t sz, uint32_t *phys) {
+uint32_t kmalloc_ap(uint32_t bytes, uint32_t *puntero) {
+
+    uint32_t temporal;
+
     if (ubicacionPaginacion & 0xFFFFF000) {
         ubicacionPaginacion &= 0xFFFFF000;
         ubicacionPaginacion += 0x1000;
     }
-    if (phys) {
-        *phys = ubicacionPaginacion;
+
+    if (puntero) {
+        *puntero = ubicacionPaginacion;
     }
-    uint32_t tmp = ubicacionPaginacion;
-    ubicacionPaginacion += sz;
-    return tmp;
+
+    temporal = ubicacionPaginacion;
+    ubicacionPaginacion += bytes;
+
+    return temporal;
 }
 
-void set_frame(uint32_t frame_addr) {
-    uint32_t frame = frame_addr / 0x1000;
-    uint32_t idx = INDEX_FROM_BIT(frame);
-    uint32_t off = OFFSET_FROM_BIT(frame);
-    marcos[idx] |= (0x1 << off);
+void fijarMarco(uint32_t direccion) {
+
+    uint32_t marco = direccion / 0x1000;
+    uint32_t indice = INDICE_DESDE_BIT(marco);
+    uint32_t desplazamiento = DESPLAZAMIENTO_DESDE_BIT(marco);
+
+    marcos[indice] |= (0x1 << desplazamiento);
+
+    return;
 }
 
-void clear_frame(uint32_t frame_addr) {
-    uint32_t frame = frame_addr / 0x1000;
-    uint32_t idx = INDEX_FROM_BIT(frame);
-    uint32_t off = OFFSET_FROM_BIT(frame);
-    marcos[idx] &= ~(0x1 << off);
-}
+void asignarMarco(struct PaginaMemoria *pagina, int32_t kernel, int32_t escritura) {
 
-uint32_t first_frame() {
-    uint32_t i, j;
-    for (i = 0; i < INDEX_FROM_BIT(cantidadMarcos); i++) {
-        if (marcos[i] != 0xFFFFFFFF) {
-            for (j = 0; j < 32; j++) {
-                uint32_t toTest = 0x1 << j;
-                if (!(marcos[i] & toTest)) {
-                    return i * 4 * 8 + j;
-                }
-            }
-        }
-    }
-    return 0;
-}
+    uint32_t indice;
 
-void alloc_frame(struct PaginaMemoria *page, int32_t is_kernel, int32_t is_writeable) {
-    if (page->frame != 0) {
-        return;
-    } else {
-        uint32_t idx = first_frame();
-        if (idx == (uint32_t) - 1) {
+    if (pagina->frame == NULL) {
+
+        indice = primerMarco();
+
+        if (indice == (uint32_t) - 1) {
             asm volatile ("cli");
             for (;;);
         }
-        set_frame(idx * 0x1000);
-        page->present = 1;
-        page->rw = (is_writeable) ? 1 : 0;
-        page->user = (is_kernel) ? 0 : 1;
-        page->frame = idx;
+
+        fijarMarco(indice * 0x1000);
+
+        pagina->present = 1;
+        pagina->rw = (escritura) ? 1 : 0;
+        pagina->user = (kernel) ? 0 : 1;
+        pagina->frame = indice;
+
     }
+
+    return;
 }
 
-void free_frame(struct PaginaMemoria *page) {
-    uint32_t frame;
-    if (!(frame = page->frame)) {
-        return;
-    } else {
-        clear_frame(frame);
-        page->frame = 0x0;
+uint32_t primerMarco(void) {
+
+    uint32_t i, j;
+    uint32_t test;
+
+    for (i = 0; i < INDICE_DESDE_BIT(cantidadMarcos); i++) {
+
+        if (marcos[i] != 0xFFFFFFFF) {
+
+            for (j = 0; j < 32; j++) {
+
+                test = 0x1 << j;
+
+                if (!(marcos[i] & test)) {
+                    return i * 4 * 8 + j;
+                }
+
+            }
+        }
+
     }
+
+    return 0;
+}
+
+void limpiarMarco(uint32_t direccion) {
+
+    uint32_t marco = direccion / 0x1000;
+    uint32_t indice = INDICE_DESDE_BIT(marco);
+    uint32_t desplazamiento = DESPLAZAMIENTO_DESDE_BIT(marco);
+
+    marcos[indice] &= ~(0x1 << desplazamiento);
+
+    return;
+}
+
+void liberarMarco(struct PaginaMemoria *pagina) {
+
+    uint32_t marco;
+
+    if ((marco = pagina->frame)) {
+        limpiarMarco(marco);
+        pagina->frame = 0x0;
+    }
+
+    return;
 }
 
 

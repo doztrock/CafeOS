@@ -71,14 +71,14 @@ struct PaginaMemoria *obtenerPaginaMemoria(uint32_t direccion, bool construir, s
  */
 uint32_t kmalloc(uint32_t bytes);
 uint32_t kmalloc_a(uint32_t bytes);
-uint32_t kmalloc_ap(uint32_t bytes, uint32_t *phys);
+uint32_t kmalloc_ap(uint32_t bytes, uint32_t *puntero);
 
-void set_frame(uint32_t direccion);
-void alloc_frame(struct PaginaMemoria *page, int32_t is_kernel, int32_t is_writeable);
+void fijarMarco(uint32_t direccion);
+void asignarMarco(struct PaginaMemoria *pagina, int32_t kernel, int32_t escritura);
 
-uint32_t first_frame();
+uint32_t primerMarco(void);
 
-void clear_frame(uint32_t direccion);
-void free_frame(struct PaginaMemoria *page);
+void limpiarMarco(uint32_t direccion);
+void liberarMarco(struct PaginaMemoria *pagina);
 
 #endif /* MEMORIA_H */
