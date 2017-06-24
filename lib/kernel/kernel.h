@@ -19,6 +19,10 @@
  */
 #define SOFTWARE_VERSION    "0.0.1"
 
+/**
+ * Macro manejador de variables que no seran usadas
+ */
+#define SIN_USAR(variable)  (void)(variable)
 
 /**
  * Direccion I/O del video
@@ -29,12 +33,6 @@
  * Direccion I/O del teclado
  */
 #define DIRECCION_TECLADO   0x60
-
-/**
- * Macro manejador de variables que no seran usadas
- * PENDIENTE MOVER
- */
-#define SIN_USAR(variable)  (void)(variable)
 
 
 #endif /* KERNEL_H */
