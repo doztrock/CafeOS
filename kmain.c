@@ -185,10 +185,8 @@ int kmain(void) {
      */
 
     /* Prueba de CPU */
-    printf("\nPrueba de CPU:");
-    printf("\nObteniendo informacion...");
-
-    printf("\nCPU:");
+    printf("\nDeterminando CPU...");
+    setForegroundColor(CIAN);
 
     switch (obtenerTipoCPU()) {
 
@@ -205,6 +203,8 @@ int kmain(void) {
             break;
 
     }
+
+    setForegroundColor(colorDefecto);
 
 
     /**
