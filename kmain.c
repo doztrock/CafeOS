@@ -15,6 +15,7 @@
 #include "lib/kernel/idt.h"
 #include "lib/kernel/irq.h"
 #include "lib/kernel/memoria.h"
+#include "lib/kernel/cpu.h"
 #include "lib/kernel/temporizador.h"
 #include "lib/kernel/teclado.h"
 
@@ -177,6 +178,36 @@ int kmain(void) {
      */
 
     /**
+     * Prueba:      CPU
+     * 
+     * Objetivo:    Determinar el tipo de CPU.
+     * Metodo:      Obtener la informacion del tipo de CPU y mostrarlo.
+     */
+
+    /* Prueba de CPU */
+    printf("\nPrueba de CPU:");
+    printf("\nObteniendo informacion...");
+
+    printf("\nCPU:");
+
+    switch (obtenerTipoCPU()) {
+
+        case INTEL:
+            printf("INTEL\n");
+            break;
+
+        case AMD:
+            printf("AMD\n");
+            break;
+
+        case DESCONOCIDO:
+            printf("DESCONOCIDO\n");
+            break;
+
+    }
+
+
+    /**
      * Prueba:      Temporizador
      * 
      * Objetivo:    Determinar si el temporizador (timer) funciona.
@@ -194,7 +225,7 @@ int kmain(void) {
 
     setForegroundColor(colorDefecto);
 
-    
+
     /* Dejamos un bucle infinito */
     for (;;);
 
