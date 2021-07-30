@@ -1,4 +1,6 @@
+AS=nasm
 CC=i686-elf-gcc
+CFLAGS=-Wall -O0 -ffreestanding -nostdlib
 LD=i686-elf-ld
 
 FILES=./src/kernel/kernel.o
@@ -10,14 +12,14 @@ all: ./src/boot/boot.bin ./src/kernel/kernel.bin
 	dd if=/dev/zero bs=512 count=100 >> os.bin
 
 ./src/boot/boot.bin: ./src/boot/boot.asm
-	nasm -f bin src/boot/boot.asm -o src/boot/boot.bin
+	$(AS) -f bin src/boot/boot.asm -o src/boot/boot.bin
 
 ./src/kernel/kernel.bin: $(FILES)
-	$(LD) -g -relocatable $(FILES) -o ./src/kernel/kernel.full.o
-	$(CC) -O0 -T ./src/linker.ld -ffreestanding -nostdlib ./src/kernel/kernel.full.o -o ./src/kernel/kernel.bin
+	$(LD) -g -relocatable $(FILES) -o ./src/kernel/kernelfull.o
+	$(CC) $(CFLAGS) -T ./src/linker.ld ./src/kernel/kernelfull.o -o ./src/kernel/kernel.bin
 
 ./src/kernel/kernel.o: ./src/kernel/kernel.asm
-	nasm -f elf -g ./src/kernel/kernel.asm -o ./src/kernel/kernel.o
+	$(AS) -f elf -g ./src/kernel/kernel.asm -o ./src/kernel/kernel.o
 
 clean:
 	find . -type f -name "*.o" -delete
