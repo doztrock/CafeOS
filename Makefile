@@ -4,7 +4,7 @@ LD=i686-elf-ld
 FILES=./src/kernel/kernel.o
 
 all: ./src/boot/boot.bin ./src/kernel/kernel.bin
-	rm os.bin
+	rm -f os.bin
 	dd if=./src/boot/boot.bin >> os.bin
 	dd if=./src/kernel/kernel.bin >> os.bin
 	dd if=/dev/zero bs=512 count=100 >> os.bin
